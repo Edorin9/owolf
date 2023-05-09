@@ -44,6 +44,17 @@ class _BreakView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 BlocBuilder<BreakBloc, BreakState>(
+                  builder: (context, state) {
+                    return Image.asset(
+                      'assets/break.png',
+                      height: 117,
+                      color: state.isFinished ? Colors.white : Colors.black,
+                      colorBlendMode: BlendMode.srcATop,
+                    );
+                  },
+                ),
+                const SizedBox(height: 18),
+                BlocBuilder<BreakBloc, BreakState>(
                   builder: (context, state) => Text(
                     state.remainingTime.timerFormat,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
