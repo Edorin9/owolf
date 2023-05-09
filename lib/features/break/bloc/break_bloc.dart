@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../util/ticker.dart';
@@ -58,6 +59,14 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     Emitter<BreakState> emit,
   ) async {
     await _tickSubscription?.cancel();
-    emit(state.copyWith(isRunning: false));
+
+    emit(state.copyWith(isRunning: false, isFinished: true));
+
+    await FlutterRingtonePlayer.play(
+      android: AndroidSounds.notification,
+      ios: IosSounds.glass,
+      looping: true,
+      asAlarm: false,
+    );
   }
 }

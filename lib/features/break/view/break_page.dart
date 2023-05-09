@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 import '../../../util/extensions/duration_ext.dart';
 import '../../home/enums/work_mode.dart';
@@ -31,32 +33,73 @@ class _BreakView extends StatelessWidget {
       (_) => context.read<BreakBloc>().add(const CountdownInititated()),
     );
     // view layout
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BlocBuilder<BreakBloc, BreakState>(
-              builder: (context, state) => Text(
-                state.remainingTime.timerFormat,
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      fontSize: 81,
-                      color: Colors.grey.shade900,
-                    ),
-              ),
-            ),
-            Text(
-              'Text test',
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    color: Colors.grey.shade900,
-                    fontSize: 18,
-                    height: 1.5,
-                    fontWeight: FontWeight.w300,
+    return BlocBuilder<BreakBloc, BreakState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: state.isFinished
+              ? Colors.red.shade900
+              : Theme.of(context).scaffoldBackgroundColor,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<BreakBloc, BreakState>(
+                  builder: (context, state) => Text(
+                    state.remainingTime.timerFormat,
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          fontSize: 81,
+                          color: state.isFinished
+                              ? Colors.white
+                              : Colors.grey.shade900,
+                        ),
                   ),
+                ),
+                // Text(
+                //   'Text test',
+                //   style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                //         color: Colors.grey.shade900,
+                //         fontSize: 18,
+                //         height: 1.5,
+                //         fontWeight: FontWeight.w300,
+                //       ),
+                // ),
+                const SizedBox(height: 18),
+                CupertinoButton(
+                  color: state.isFinished ? Colors.white : Colors.black,
+                  disabledColor: Colors.grey.shade200,
+                  onPressed: () {
+                    if (state.isFinished) FlutterRingtonePlayer.stop();
+                    Navigator.of(context).pop();
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Resume work',
+                        style:
+                            Theme.of(context).textTheme.displayLarge?.copyWith(
+                                  color: state.isFinished
+                                      ? Colors.red.shade900
+                                      : Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.keyboard_double_arrow_right,
+                        color: state.isFinished
+                            ? Colors.red.shade900
+                            : Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
