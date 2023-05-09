@@ -123,8 +123,7 @@ class _Timer extends StatelessWidget {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content:
-                                  const Text('Work duration is not enough!'),
+                              content: const Text('Time worked is not enough!'),
                               backgroundColor: Colors.red.shade900,
                             ),
                           );

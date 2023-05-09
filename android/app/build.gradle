@@ -67,17 +67,17 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Flutter Todos"]
+            resValue "string", "app_name", "owolf"
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Flutter Todos"]
+            resValue "string", "app_name", "owolf-stg"
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Flutter Todos"]
+            resValue "string", "app_name", "owolf-dev"
         }
     }
 }
