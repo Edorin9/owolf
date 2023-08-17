@@ -30,7 +30,7 @@ class _BreakView extends StatelessWidget {
   Widget build(BuildContext context) {
     // start countdown
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<BreakBloc>().add(const CountdownInititated()),
+      (_) => context.read<BreakBloc>().initiateCountdown(),
     );
     // view layout
     return BlocBuilder<BreakBloc, BreakState>(
@@ -57,7 +57,7 @@ class _BreakView extends StatelessWidget {
                 BlocBuilder<BreakBloc, BreakState>(
                   builder: (context, state) => Text(
                     state.remainingTime.timerFormat,
-                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           fontSize: 81,
                           color: state.isFinished
                               ? Colors.white

@@ -111,7 +111,7 @@ class _Timer extends StatelessWidget {
                 final homeBloc = context.read<HomeBloc>();
                 if (state.isRunning == false) {
                   // start timer
-                  homeBloc.add(const StopwatchInitiated());
+                  homeBloc.initiateStopWatch();
                 } else {
                   // show sheet to choose restOption
                   final restOption = await _showRestOptionSheet(context);
@@ -131,7 +131,7 @@ class _Timer extends StatelessWidget {
                         return;
                       }
                       // stop timer - if mounted, start break timer
-                      homeBloc.add(const TakeBreakChosen());
+                      homeBloc.resetStopwatch();
                       if (context.mounted) {
                         await Navigator.of(context).pushNamed(
                           BreakPage.name,
@@ -140,11 +140,11 @@ class _Timer extends StatelessWidget {
                             referenceMode: WorkMode.normal,
                           ),
                         );
-                        homeBloc.add(const StopwatchInitiated());
+                        homeBloc.initiateStopWatch();
                       }
                       break;
                     case RestOption.endSession:
-                      homeBloc.add(const EndSessionChosen());
+                      homeBloc.resetStopwatch();
                       break;
                     case RestOption.cancel:
                       break;

@@ -13,14 +13,12 @@ part 'break_bloc.g.dart';
 part 'break_event.dart';
 part 'break_state.dart';
 
-class BreakBloc extends Bloc<BreakEvent, BreakState> {
+class BreakBloc extends Cubit<BreakState> {
   BreakBloc(
     Duration duration,
     WorkMode referenceMode,
   ) : super(BreakState(remainingTime: duration, referenceMode: referenceMode)) {
-    on<CountdownInititated>(_onCountdownInitiated);
-    on<CountdownTicked>(_onCountdownTicked);
-    on<CountdownEnded>(_onCountdownEnded);
+    print(duration);
   }
 
   StreamSubscription<int>? _tickSubscription;
@@ -31,38 +29,25 @@ class BreakBloc extends Bloc<BreakEvent, BreakState> {
     return super.close();
   }
 
-  Future<void> _onCountdownInitiated(
-    CountdownInititated event,
-    Emitter<BreakState> emit,
-  ) async {
+  void initiateCountdown() {
     emit(state.copyWith(isRunning: true));
     // cancel subscription before starting another
-    await _tickSubscription?.cancel();
+    _tickSubscription?.cancel();
     // listen to countdown ticks
     _tickSubscription = countdown(state.remainingTime).listen((int ticks) {
       // register countdown ticks - if zero is reached, stop timer
       final remainingTime = Duration(seconds: ticks);
-      add(CountdownTicked(remainingTime));
-      if (remainingTime.inSeconds == 0) add(const CountdownEnded());
+      emit(state.copyWith(remainingTime: remainingTime));
+      if (remainingTime.inSeconds == 0) _endCountdown();
     });
   }
 
-  Future<void> _onCountdownTicked(
-    CountdownTicked event,
-    Emitter<BreakState> emit,
-  ) async {
-    emit(state.copyWith(remainingTime: event.remainingTime));
-  }
-
-  Future<void> _onCountdownEnded(
-    CountdownEnded event,
-    Emitter<BreakState> emit,
-  ) async {
-    await _tickSubscription?.cancel();
+  void _endCountdown() {
+    _tickSubscription?.cancel();
 
     emit(state.copyWith(isRunning: false, isFinished: true));
 
-    await FlutterRingtonePlayer.play(
+    FlutterRingtonePlayer.play(
       android: AndroidSounds.notification,
       ios: IosSounds.glass,
       looping: true,
