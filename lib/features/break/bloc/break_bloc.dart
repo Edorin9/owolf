@@ -16,10 +16,7 @@ class BreakBloc extends Cubit<BreakState> {
   BreakBloc(
     Duration duration,
     WorkMode referenceMode,
-  ) : super(BreakState(remainingTime: duration, referenceMode: referenceMode)) {
-    print(duration);
-  }
-
+  ) : super(BreakState(remainingTime: duration, referenceMode: referenceMode));
   StreamSubscription<int>? _tickSubscription;
 
   @override
