@@ -9,7 +9,6 @@ import '../enums/work_mode.dart';
 
 part 'home_bloc.freezed.dart';
 part 'home_bloc.g.dart';
-part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Cubit<HomeState> {

@@ -80,9 +80,11 @@ class _BreakView extends StatelessWidget {
                   child: CupertinoButton(
                     color: state.isFinished ? Colors.white : Colors.black,
                     disabledColor: Colors.grey.shade200,
-                    onPressed: () {
-                      if (state.isFinished) FlutterRingtonePlayer.stop();
-                      Navigator.of(context).pop();
+                    onPressed: () async {
+                      (state.isFinished)
+                          ? FlutterRingtonePlayer.stop()
+                          : await context.read<BreakBloc>().stopCountdown();
+                      if (context.mounted) Navigator.of(context).pop();
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

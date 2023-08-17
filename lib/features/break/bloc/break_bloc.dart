@@ -10,7 +10,6 @@ import '../../home/enums/work_mode.dart';
 
 part 'break_bloc.freezed.dart';
 part 'break_bloc.g.dart';
-part 'break_event.dart';
 part 'break_state.dart';
 
 class BreakBloc extends Cubit<BreakState> {
@@ -29,10 +28,10 @@ class BreakBloc extends Cubit<BreakState> {
     return super.close();
   }
 
-  void initiateCountdown() {
+  Future<void> initiateCountdown() async {
     emit(state.copyWith(isRunning: true));
     // cancel subscription before starting another
-    _tickSubscription?.cancel();
+    await _tickSubscription?.cancel();
     // listen to countdown ticks
     _tickSubscription = countdown(state.remainingTime).listen((int ticks) {
       // register countdown ticks - if zero is reached, stop timer
@@ -42,12 +41,15 @@ class BreakBloc extends Cubit<BreakState> {
     });
   }
 
-  void _endCountdown() {
-    _tickSubscription?.cancel();
-
+  Future<void> stopCountdown() async {
+    await _tickSubscription?.cancel();
     emit(state.copyWith(isRunning: false, isFinished: true));
+  }
 
-    FlutterRingtonePlayer.play(
+  Future<void> _endCountdown() async {
+    await stopCountdown();
+
+    await FlutterRingtonePlayer.play(
       android: AndroidSounds.notification,
       ios: IosSounds.glass,
       looping: true,
