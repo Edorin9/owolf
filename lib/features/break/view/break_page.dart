@@ -41,23 +41,23 @@ class _BreakView extends StatelessWidget {
               : Theme.of(context).scaffoldBackgroundColor,
           body: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const SizedBox(height: 27),
                 BlocBuilder<BreakBloc, BreakState>(
                   builder: (context, state) {
                     return Image.asset(
-                      'assets/break.png',
-                      height: 117,
+                      'assets/coffee.png',
+                      height: 163,
                       color: state.isFinished ? Colors.white : Colors.black,
                       colorBlendMode: BlendMode.srcATop,
                     );
                   },
                 ),
-                const SizedBox(height: 18),
                 BlocBuilder<BreakBloc, BreakState>(
                   builder: (context, state) => Text(
                     state.remainingTime.timerFormat,
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           fontSize: 81,
                           color: state.isFinished
                               ? Colors.white
@@ -74,36 +74,41 @@ class _BreakView extends StatelessWidget {
                 //         fontWeight: FontWeight.w300,
                 //       ),
                 // ),
-                const SizedBox(height: 18),
-                CupertinoButton(
-                  color: state.isFinished ? Colors.white : Colors.black,
-                  disabledColor: Colors.grey.shade200,
-                  onPressed: () {
-                    if (state.isFinished) FlutterRingtonePlayer.stop();
-                    Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Resume work',
-                        style:
-                            Theme.of(context).textTheme.displayLarge?.copyWith(
-                                  color: state.isFinished
-                                      ? Colors.red.shade900
-                                      : Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                      ),
-                      const SizedBox(width: 4),
-                      Icon(
-                        Icons.keyboard_double_arrow_right,
-                        color: state.isFinished
-                            ? Colors.red.shade900
-                            : Colors.white,
-                      ),
-                    ],
+                Container(
+                  padding: const EdgeInsets.all(18),
+                  width: double.infinity,
+                  child: CupertinoButton(
+                    color: state.isFinished ? Colors.white : Colors.black,
+                    disabledColor: Colors.grey.shade200,
+                    onPressed: () {
+                      if (state.isFinished) FlutterRingtonePlayer.stop();
+                      Navigator.of(context).pop();
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Resume work',
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge
+                              ?.copyWith(
+                                color: state.isFinished
+                                    ? Colors.red.shade900
+                                    : Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.keyboard_double_arrow_right,
+                          color: state.isFinished
+                              ? Colors.red.shade900
+                              : Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
