@@ -9,14 +9,15 @@ import 'app.dart';
 import 'app_bloc_observer.dart';
 
 Future<void> bootstrap() async {
-  FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
-  };
-
-  Bloc.observer = AppBlocObserver();
-
   runZonedGuarded(
-    () => runApp(const App()),
+    () {
+      WidgetsFlutterBinding.ensureInitialized();
+      Bloc.observer = AppBlocObserver();
+      FlutterError.onError = (details) {
+        log(details.exceptionAsString(), stackTrace: details.stack);
+      };
+      runApp(const App());
+    },
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }

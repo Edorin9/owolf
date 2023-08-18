@@ -12,4 +12,5 @@ class BreakState with _$BreakState {
 
   factory BreakState.fromJson(Map<String, dynamic> json) =>
       _$BreakStateFromJson(json);
+      
 }

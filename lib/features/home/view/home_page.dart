@@ -32,18 +32,18 @@ class _HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
+      child: const Scaffold(
         body: Stack(
           children: [
             SafeArea(
               child: Column(
-                children: const [
+                children: [
                   _HeaderIcons(),
                   _Timer(),
                 ],
               ),
             ),
-            const _ProxyTaskField(),
+            _ProxyTaskField(),
             // TODO(Edorin9): future - _DraggableTasksSheet(),
           ],
         ),
