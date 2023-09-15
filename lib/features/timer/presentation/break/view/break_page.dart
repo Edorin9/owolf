@@ -3,24 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
-import '../../../util/extensions/duration_ext.dart';
-import '../../home/enums/work_mode.dart';
+import '../../../../../util/extensions/duration_ext.dart';
+import '../../../domain/entities/entities.dart';
 import '../bloc/break_bloc.dart';
 
 class BreakPage extends StatelessWidget {
-  const BreakPage({super.key});
+  const BreakPage(this.duration, this.referenceMode, {super.key});
 
-  static const String name = '/break';
-  static WidgetBuilder route() => (context) => const BreakPage();
+  final Duration duration;
+  final WorkMode referenceMode;
 
-  @override
-  Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments! as BreakArgs;
-    return BlocProvider(
-      create: (context) => BreakBloc(args.duration, args.referenceMode),
-      child: const _BreakView(),
+  static Route<void> route({
+    required Duration duration,
+    required WorkMode referenceMode,
+  }) {
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        create: (context) =>
+            BreakBloc(duration, referenceMode)..initiateCountdown(),
+        child: BreakPage(duration, referenceMode),
+      ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) => const _BreakView();
 }
 
 class _BreakView extends StatelessWidget {
@@ -28,10 +35,6 @@ class _BreakView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // start countdown
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<BreakBloc>().initiateCountdown(),
-    );
     // view layout
     return BlocBuilder<BreakBloc, BreakState>(
       builder: (context, state) {

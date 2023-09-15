@@ -4,11 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../util/extensions/duration_ext.dart';
+import '../../../../../util/extensions/duration_ext.dart';
+import '../../../domain/entities/entities.dart';
 import '../../break/view/break_page.dart';
-import '../bloc/home_bloc.dart';
-import '../enums/rest_option.dart';
-import '../enums/work_mode.dart';
+import '../cubit/home_cubit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,7 +18,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(),
+      create: (context) => HomeCubit(),
       child: const _HomeView(),
     );
   }
@@ -94,7 +93,7 @@ class _Timer extends StatelessWidget {
           //   height: MediaQuery.of(context).size.height / 7,
           // ),
           // timer display
-          BlocBuilder<HomeBloc, HomeState>(
+          BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) => Text(
               state.elapsedTime.timerFormat,
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
@@ -105,10 +104,10 @@ class _Timer extends StatelessWidget {
           ),
           const SizedBox(height: 9),
           // play/stop button
-          BlocBuilder<HomeBloc, HomeState>(
+          BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) => CupertinoButton(
               onPressed: () async {
-                final homeBloc = context.read<HomeBloc>();
+                final homeBloc = context.read<HomeCubit>();
                 if (state.isRunning == false) {
                   // start timer
                   unawaited(homeBloc.initiateStopWatch());
@@ -133,9 +132,8 @@ class _Timer extends StatelessWidget {
                       // stop timer - if mounted, start break timer
                       unawaited(homeBloc.resetStopwatch());
                       if (context.mounted) {
-                        await Navigator.of(context).pushNamed(
-                          BreakPage.name,
-                          arguments: BreakArgs(
+                        await Navigator.of(context).push(
+                          BreakPage.route(
                             duration: homeBloc.state.breakDuration,
                             referenceMode: WorkMode.normal,
                           ),
@@ -182,8 +180,8 @@ class _Timer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    BlocBuilder<HomeBloc, HomeState>(
-                      bloc: context.read<HomeBloc>(),
+                    BlocBuilder<HomeCubit, HomeState>(
+                      bloc: context.read<HomeCubit>(),
                       builder: (_, state) => RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(

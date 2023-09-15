@@ -4,15 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../util/ticker.dart';
-import '../enums/work_mode.dart';
+import '../../../../../util/ticker.dart';
+import '../../../domain/entities/entities.dart';
 
-part 'home_bloc.freezed.dart';
-part 'home_bloc.g.dart';
+part 'home_cubit.freezed.dart';
+part 'home_cubit.g.dart';
 part 'home_state.dart';
 
-class HomeBloc extends Cubit<HomeState> {
-  HomeBloc() : super(const HomeState());
+class HomeCubit extends Cubit<HomeState> {
+  HomeCubit() : super(const HomeState());
 
   StreamSubscription<int>? _tickSubscription;
 

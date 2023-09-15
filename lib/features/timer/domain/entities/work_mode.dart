@@ -9,11 +9,8 @@ enum WorkMode {
 
   /// Countdown Timer - work and take a break on set durations.
   ///
-  slave,
-}
+  slave;
 
-extension WorkModeExt on WorkMode {
-  /// Toggle between [WorkMode.normal] and [WorkMode.slave].
   WorkMode toggle() =>
       (this == WorkMode.normal) ? WorkMode.slave : WorkMode.normal;
 }

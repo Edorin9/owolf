@@ -5,8 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../util/ticker.dart';
-import '../../home/enums/work_mode.dart';
+import '../../../../../util/ticker.dart';
+import '../../../domain/entities/entities.dart';
+
+
+
 
 part 'break_bloc.freezed.dart';
 part 'break_bloc.g.dart';
