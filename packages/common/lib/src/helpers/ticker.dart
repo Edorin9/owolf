@@ -1,6 +1,5 @@
-/// Count up every 1 second.
-///
-/// Creates a [Stream] that emits an [int] incremented by one every 1 second.
+/// Emits an [int] with the value of previously emitted [int] plus 1,
+/// every second.
 ///
 Stream<int> countUp() {
   return Stream.periodic(
@@ -9,10 +8,8 @@ Stream<int> countUp() {
   );
 }
 
-/// Countdown every 1 second starting from [duration].
-///
-/// Creates a [Stream] that emits an [int] decremented by one from [duration]
-/// every 1 second.
+/// Emits an [int] with the value of previously emitted [int] minus 1,
+/// every second.
 ///
 Stream<int> countdown(Duration duration) {
   return Stream.periodic(

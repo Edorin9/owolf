@@ -108,36 +108,38 @@ class _Timer extends StatelessWidget {
                 final homeBloc = context.read<HomeCubit>();
                 if (state == HomeStateStatus.idle) {
                   // start timer
-                  unawaited(homeBloc.initiateStopWatch());
+                  homeBloc.initiateStopWatch();
                 } else {
                   // show sheet to choose restOption
                   final restOption = await _showRestOptionSheet(context);
                   // handle chosen restOption
                   switch (restOption) {
                     case RestOption.takeBreak:
-                      // cancel break if computed break duration is zero or less
-                      if (homeBloc.state.breakDuration.inSeconds <= 0) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text('Time worked is not enough!'),
-                              backgroundColor: Colors.red.shade900,
-                            ),
-                          );
-                        }
-                        return;
-                      }
-                      // stop timer - if mounted, start break timer
-                      unawaited(homeBloc.resetStopwatch());
+                      // // cancel break if computed break duration is zero or less
+                      // if (homeBloc.state.breakDuration.inSeconds <= 0) {
+                      //   if (context.mounted) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       SnackBar(
+                      //         content: const Text('Time worked is not enough!'),
+                      //         backgroundColor: Colors.red.shade900,
+                      //       ),
+                      //     );
+                      //   }
+                      //   return;
+                      // }
+                      homeBloc.resetStopwatch();
                       if (context.mounted) {
-                        await Navigator.of(context).push(BreakPage.route(
+                        await Navigator.of(context).push(
+                          BreakPage.route(
                             duration: homeBloc.state.breakDuration,
-                            referenceMode: WorkMode.normal));
-                        unawaited(homeBloc.initiateStopWatch());
+                            referenceMode: WorkMode.normal,
+                          ),
+                        );
+                        homeBloc.initiateStopWatch();
                       }
                       break;
                     case RestOption.endSession:
-                      unawaited(homeBloc.resetStopwatch());
+                      homeBloc.resetStopwatch();
                       break;
                     case RestOption.cancel:
                       break;

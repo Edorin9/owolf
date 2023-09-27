@@ -4,6 +4,8 @@ import 'package:common/helpers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:common/extensions.dart';
+
 import '../models/work_mode.dart';
 
 part 'home_cubit.mapper.dart';
@@ -30,13 +32,13 @@ class HomeCubit extends Cubit<HomeState> {
     _tickSubscription = countUp().listen(_handleTick);
   }
 
-  void _handleTick(int tickCount) {
-    final elapsedTime = Duration(seconds: tickCount);
-    emit(state.copyWith(elapsedTime: elapsedTime));
-  }
-
   Future<void> resetStopwatch() async {
     await _tickSubscription?.cancel();
     emit(const HomeState());
+  }
+
+  void _handleTick(int tickCount) {
+    final elapsedTime = Duration(seconds: tickCount);
+    emit(state.copyWith(elapsedTime: elapsedTime));
   }
 }

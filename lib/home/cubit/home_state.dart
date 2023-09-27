@@ -16,5 +16,12 @@ class HomeState with HomeStateMappable {
   final Duration elapsedTime;
   final Duration remainingTime;
 
-  Duration get breakDuration => elapsedTime * 0.3;
+  // TODO: implement configurability on preferences
+  Duration get breakDuration => elapsedTime > 90.minutes
+      ? 15.minutes
+      : elapsedTime > 50.minutes && elapsedTime <= 90.minutes
+          ? 10.minutes
+          : elapsedTime > 25.minutes && elapsedTime <= 50.minutes
+              ? 8.minutes
+              : 5.minutes;
 }
