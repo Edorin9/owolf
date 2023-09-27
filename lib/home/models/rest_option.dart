@@ -1,8 +1,12 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/cupertino.dart';
 
-enum RestOption { takeBreak, endSession, cancel }
+@MappableEnum()
+enum RestOption {
+  takeBreak,
+  endSession,
+  cancel;
 
-extension RestOptionExt on RestOption {
   IconData? get icon {
     switch (this) {
       case RestOption.takeBreak:

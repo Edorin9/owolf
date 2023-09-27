@@ -3,24 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
-import '../../../util/extensions/duration_ext.dart';
-import '../../home/enums/work_mode.dart';
-import '../bloc/break_bloc.dart';
+import '../../home/models/work_mode.dart';
+import '../cubit/cubit.dart';
 
 class BreakPage extends StatelessWidget {
-  const BreakPage({super.key});
+  const BreakPage._();
 
-  static const String name = '/break';
-  static WidgetBuilder route() => (context) => const BreakPage();
+  static Route<void> route({
+    required Duration duration,
+    required WorkMode referenceMode,
+  }) =>
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) =>
+              BreakCubit(duration, referenceMode)..initiateCountdown(),
+          child: const BreakPage._(),
+        ),
+      );
 
   @override
-  Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments! as BreakArgs;
-    return BlocProvider(
-      create: (context) => BreakBloc(args.duration, args.referenceMode),
-      child: const _BreakView(),
-    );
-  }
+  Widget build(BuildContext context) => const _BreakView();
 }
 
 class _BreakView extends StatelessWidget {
@@ -28,12 +30,8 @@ class _BreakView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // start countdown
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<BreakBloc>().initiateCountdown(),
-    );
     // view layout
-    return BlocBuilder<BreakBloc, BreakState>(
+    return BlocBuilder<BreakCubit, BreakState>(
       builder: (context, state) {
         return Scaffold(
           backgroundColor: state.isFinished
@@ -44,7 +42,7 @@ class _BreakView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(height: 27),
-                BlocBuilder<BreakBloc, BreakState>(
+                BlocBuilder<BreakCubit, BreakState>(
                   builder: (context, state) {
                     return Image.asset(
                       'assets/coffee.png',
@@ -54,7 +52,7 @@ class _BreakView extends StatelessWidget {
                     );
                   },
                 ),
-                BlocBuilder<BreakBloc, BreakState>(
+                BlocBuilder<BreakCubit, BreakState>(
                   builder: (context, state) => Text(
                     state.remainingTime.timerFormat,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
@@ -83,7 +81,7 @@ class _BreakView extends StatelessWidget {
                     onPressed: () async {
                       (state.isFinished)
                           ? FlutterRingtonePlayer.stop()
-                          : await context.read<BreakBloc>().stopCountdown();
+                          : await context.read<BreakCubit>().stopCountdown();
                       if (context.mounted) Navigator.of(context).pop();
                     },
                     child: Row(
@@ -130,4 +128,9 @@ class BreakArgs {
 
   final Duration duration;
   final WorkMode referenceMode;
+}
+
+extension on Duration {
+  String get timerFormat =>
+      '$inMinutes:${inSeconds.remainder(60).toString().padLeft(2, '0')}';
 }

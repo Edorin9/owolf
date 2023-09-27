@@ -1,18 +1,16 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../util/ticker.dart';
-import '../enums/work_mode.dart';
+import '../models/work_mode.dart';
 
-part 'home_bloc.freezed.dart';
-part 'home_bloc.g.dart';
+part 'home_cubit.mapper.dart';
 part 'home_state.dart';
 
-class HomeBloc extends Cubit<HomeState> {
-  HomeBloc() : super(const HomeState());
+class HomeCubit extends Cubit<HomeState> {
+  HomeCubit() : super(const HomeState());
 
   StreamSubscription<int>? _tickSubscription;
 
