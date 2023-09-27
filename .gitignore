@@ -46,6 +46,7 @@ app.*.map.json
 # Generated Dart files  
 **/*.freezed.dart
 **/*.g.dart
+**/*.mapper.dart
 
 # Coverage
 coverage/
