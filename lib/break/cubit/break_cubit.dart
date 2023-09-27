@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:common/helpers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
-import '../../../util/ticker.dart';
 import '../../home/models/work_mode.dart';
 
 part 'break_cubit.mapper.dart';

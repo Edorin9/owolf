@@ -7,12 +7,14 @@ environment:
   sdk: '>=2.19.0 <3.0.0'
 
 dependencies:
+  common:
+    path: packages/common
   cupertino_icons: ^1.0.2
   dart_mappable: ^3.2.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
-  flutter_hooks: ^0.18.6
+  flutter_hooks: ^0.20.1
   flutter_ringtone_player: ^3.2.0
   intl: ^0.18.1
   path_provider: ^2.0.15

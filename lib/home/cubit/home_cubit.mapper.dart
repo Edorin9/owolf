@@ -55,25 +55,9 @@ class HomeStateMapper extends ClassMapperBase<HomeState> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static HomeState fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<HomeState>(map));
-  }
-
-  static HomeState fromJson(String json) {
-    return _guard((c) => c.fromJson<HomeState>(json));
-  }
 }
 
 mixin HomeStateMappable {
-  String toJson() {
-    return HomeStateMapper._guard((c) => c.toJson(this as HomeState));
-  }
-
-  Map<String, dynamic> toMap() {
-    return HomeStateMapper._guard((c) => c.toMap(this as HomeState));
-  }
-
   HomeStateCopyWith<HomeState, HomeState, HomeState> get copyWith =>
       _HomeStateCopyWithImpl(this as HomeState, $identity, $identity);
   @override

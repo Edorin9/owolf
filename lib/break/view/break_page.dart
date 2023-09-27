@@ -1,3 +1,4 @@
+import 'package:common/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,19 +119,4 @@ class _BreakView extends StatelessWidget {
       },
     );
   }
-}
-
-class BreakArgs {
-  BreakArgs({
-    required this.duration,
-    required this.referenceMode,
-  });
-
-  final Duration duration;
-  final WorkMode referenceMode;
-}
-
-extension on Duration {
-  String get timerFormat =>
-      '$inMinutes:${inSeconds.remainder(60).toString().padLeft(2, '0')}';
 }

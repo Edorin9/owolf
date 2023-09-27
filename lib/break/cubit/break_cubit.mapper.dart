@@ -60,25 +60,9 @@ class BreakStateMapper extends ClassMapperBase<BreakState> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static BreakState fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<BreakState>(map));
-  }
-
-  static BreakState fromJson(String json) {
-    return _guard((c) => c.fromJson<BreakState>(json));
-  }
 }
 
 mixin BreakStateMappable {
-  String toJson() {
-    return BreakStateMapper._guard((c) => c.toJson(this as BreakState));
-  }
-
-  Map<String, dynamic> toMap() {
-    return BreakStateMapper._guard((c) => c.toMap(this as BreakState));
-  }
-
   BreakStateCopyWith<BreakState, BreakState, BreakState> get copyWith =>
       _BreakStateCopyWithImpl(this as BreakState, $identity, $identity);
   @override

@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:common/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../util/extensions/duration_ext.dart';
 import '../../break/view/view.dart';
 import '../cubit/cubit.dart';
 import '../models/models.dart';
