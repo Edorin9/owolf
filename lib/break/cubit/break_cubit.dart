@@ -15,6 +15,7 @@ class BreakCubit extends Cubit<BreakState> {
     Duration duration,
     WorkMode referenceMode,
   ) : super(BreakState(remainingTime: duration, referenceMode: referenceMode));
+
   StreamSubscription<int>? _tickSubscription;
 
   @override
@@ -26,12 +27,13 @@ class BreakCubit extends Cubit<BreakState> {
   Future<void> initiateCountdown() async {
     await _tickSubscription?.cancel();
     emit(state.copyWith(status: BreakStateStatus.running));
-    _tickSubscription =
-        countdownTicker(state.remainingTime).listen((int ticks) {
-      final remainingTime = Duration(seconds: ticks);
-      emit(state.copyWith(remainingTime: remainingTime));
-      if (remainingTime.inSeconds == 0) _endCountdown();
-    });
+    _tickSubscription = countdown(state.remainingTime).listen(_handleTick);
+  }
+
+  void _handleTick(int tickCount) {
+    final remainingTime = Duration(seconds: tickCount);
+    emit(state.copyWith(remainingTime: remainingTime));
+    if (remainingTime.inSeconds == 0) _endCountdown();
   }
 
   Future<void> _endCountdown() async {
