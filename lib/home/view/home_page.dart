@@ -101,11 +101,12 @@ class _Timer extends StatelessWidget {
           ),
           const SizedBox(height: 9),
           // play/stop button
-          BlocBuilder<HomeCubit, HomeState>(
+          BlocSelector<HomeCubit, HomeState, HomeStateStatus>(
+            selector: (state) => state.status,
             builder: (context, state) => CupertinoButton(
               onPressed: () async {
                 final homeBloc = context.read<HomeCubit>();
-                if (state.isRunning == false) {
+                if (state == HomeStateStatus.idle) {
                   // start timer
                   unawaited(homeBloc.initiateStopWatch());
                 } else {
@@ -145,7 +146,7 @@ class _Timer extends StatelessWidget {
               },
               minSize: 0,
               child: Icon(
-                state.isRunning == true
+                state == HomeStateStatus.running
                     ? CupertinoIcons.stop_fill
                     : CupertinoIcons.play_arrow_solid,
                 color: Colors.grey.shade900,

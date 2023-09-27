@@ -2,7 +2,7 @@
 ///
 /// Creates a [Stream] that emits an [int] incremented by one every 1 second.
 ///
-Stream<int> countUp() {
+Stream<int> countUpTicker() {
   return Stream.periodic(
     const Duration(milliseconds: 1000),
     (int ticks) => ticks + 1,
@@ -14,7 +14,7 @@ Stream<int> countUp() {
 /// Creates a [Stream] that emits an [int] decremented by one from [duration]
 /// every 1 second.
 ///
-Stream<int> countdown(Duration duration) {
+Stream<int> countdownTicker(Duration duration) {
   return Stream.periodic(
     const Duration(milliseconds: 1000),
     (int ticks) => duration.inSeconds - (ticks + 1),

@@ -30,12 +30,9 @@ class BreakStateMapper extends ClassMapperBase<BreakState> {
   static Duration _$overbreakTime(BreakState v) => v.overbreakTime;
   static const Field<BreakState, Duration> _f$overbreakTime =
       Field('overbreakTime', _$overbreakTime, opt: true, def: Duration.zero);
-  static bool _$isRunning(BreakState v) => v.isRunning;
-  static const Field<BreakState, bool> _f$isRunning =
-      Field('isRunning', _$isRunning, opt: true, def: false);
-  static bool _$isFinished(BreakState v) => v.isFinished;
-  static const Field<BreakState, bool> _f$isFinished =
-      Field('isFinished', _$isFinished, opt: true, def: false);
+  static BreakStateStatus _$status(BreakState v) => v.status;
+  static const Field<BreakState, BreakStateStatus> _f$status =
+      Field('status', _$status, opt: true, def: BreakStateStatus.idle);
   static WorkMode _$referenceMode(BreakState v) => v.referenceMode;
   static const Field<BreakState, WorkMode> _f$referenceMode =
       Field('referenceMode', _$referenceMode, opt: true, def: WorkMode.normal);
@@ -44,8 +41,7 @@ class BreakStateMapper extends ClassMapperBase<BreakState> {
   final Map<Symbol, Field<BreakState, dynamic>> fields = const {
     #remainingTime: _f$remainingTime,
     #overbreakTime: _f$overbreakTime,
-    #isRunning: _f$isRunning,
-    #isFinished: _f$isFinished,
+    #status: _f$status,
     #referenceMode: _f$referenceMode,
   };
 
@@ -53,8 +49,7 @@ class BreakStateMapper extends ClassMapperBase<BreakState> {
     return BreakState(
         remainingTime: data.dec(_f$remainingTime),
         overbreakTime: data.dec(_f$overbreakTime),
-        isRunning: data.dec(_f$isRunning),
-        isFinished: data.dec(_f$isFinished),
+        status: data.dec(_f$status),
         referenceMode: data.dec(_f$referenceMode));
   }
 
@@ -94,8 +89,7 @@ abstract class BreakStateCopyWith<$R, $In extends BreakState, $Out>
   $R call(
       {Duration? remainingTime,
       Duration? overbreakTime,
-      bool? isRunning,
-      bool? isFinished,
+      BreakStateStatus? status,
       WorkMode? referenceMode});
   BreakStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -112,22 +106,19 @@ class _BreakStateCopyWithImpl<$R, $Out>
   $R call(
           {Duration? remainingTime,
           Duration? overbreakTime,
-          bool? isRunning,
-          bool? isFinished,
+          BreakStateStatus? status,
           WorkMode? referenceMode}) =>
       $apply(FieldCopyWithData({
         if (remainingTime != null) #remainingTime: remainingTime,
         if (overbreakTime != null) #overbreakTime: overbreakTime,
-        if (isRunning != null) #isRunning: isRunning,
-        if (isFinished != null) #isFinished: isFinished,
+        if (status != null) #status: status,
         if (referenceMode != null) #referenceMode: referenceMode
       }));
   @override
   BreakState $make(CopyWithData data) => BreakState(
       remainingTime: data.get(#remainingTime, or: $value.remainingTime),
       overbreakTime: data.get(#overbreakTime, or: $value.overbreakTime),
-      isRunning: data.get(#isRunning, or: $value.isRunning),
-      isFinished: data.get(#isFinished, or: $value.isFinished),
+      status: data.get(#status, or: $value.status),
       referenceMode: data.get(#referenceMode, or: $value.referenceMode));
 
   @override

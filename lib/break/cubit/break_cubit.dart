@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:common/helpers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 import '../../home/models/work_mode.dart';
 
@@ -25,31 +24,18 @@ class BreakCubit extends Cubit<BreakState> {
   }
 
   Future<void> initiateCountdown() async {
-    emit(state.copyWith(isRunning: true));
-    // cancel subscription before starting another
     await _tickSubscription?.cancel();
-    // listen to countdown ticks
-    _tickSubscription = countdown(state.remainingTime).listen((int ticks) {
-      // register countdown ticks - if zero is reached, stop timer
+    emit(state.copyWith(status: BreakStateStatus.running));
+    _tickSubscription =
+        countdownTicker(state.remainingTime).listen((int ticks) {
       final remainingTime = Duration(seconds: ticks);
       emit(state.copyWith(remainingTime: remainingTime));
       if (remainingTime.inSeconds == 0) _endCountdown();
     });
   }
 
-  Future<void> stopCountdown() async {
-    await _tickSubscription?.cancel();
-    emit(state.copyWith(isRunning: false, isFinished: true));
-  }
-
   Future<void> _endCountdown() async {
-    await stopCountdown();
-
-    await FlutterRingtonePlayer.play(
-      android: AndroidSounds.notification,
-      ios: IosSounds.glass,
-      looping: true,
-      asAlarm: false,
-    );
+    await _tickSubscription?.cancel();
+    emit(state.copyWith(status: BreakStateStatus.completed));
   }
 }

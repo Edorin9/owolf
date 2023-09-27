@@ -27,9 +27,9 @@ class HomeStateMapper extends ClassMapperBase<HomeState> {
   static WorkMode _$mode(HomeState v) => v.mode;
   static const Field<HomeState, WorkMode> _f$mode =
       Field('mode', _$mode, opt: true, def: WorkMode.normal);
-  static bool _$isRunning(HomeState v) => v.isRunning;
-  static const Field<HomeState, bool> _f$isRunning =
-      Field('isRunning', _$isRunning, opt: true, def: false);
+  static HomeStateStatus _$status(HomeState v) => v.status;
+  static const Field<HomeState, HomeStateStatus> _f$status =
+      Field('status', _$status, opt: true, def: HomeStateStatus.idle);
   static Duration _$elapsedTime(HomeState v) => v.elapsedTime;
   static const Field<HomeState, Duration> _f$elapsedTime =
       Field('elapsedTime', _$elapsedTime, opt: true, def: Duration.zero);
@@ -40,7 +40,7 @@ class HomeStateMapper extends ClassMapperBase<HomeState> {
   @override
   final Map<Symbol, Field<HomeState, dynamic>> fields = const {
     #mode: _f$mode,
-    #isRunning: _f$isRunning,
+    #status: _f$status,
     #elapsedTime: _f$elapsedTime,
     #remainingTime: _f$remainingTime,
   };
@@ -48,7 +48,7 @@ class HomeStateMapper extends ClassMapperBase<HomeState> {
   static HomeState _instantiate(DecodingData data) {
     return HomeState(
         mode: data.dec(_f$mode),
-        isRunning: data.dec(_f$isRunning),
+        status: data.dec(_f$status),
         elapsedTime: data.dec(_f$elapsedTime),
         remainingTime: data.dec(_f$remainingTime));
   }
@@ -87,7 +87,7 @@ abstract class HomeStateCopyWith<$R, $In extends HomeState, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call(
       {WorkMode? mode,
-      bool? isRunning,
+      HomeStateStatus? status,
       Duration? elapsedTime,
       Duration? remainingTime});
   HomeStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -104,19 +104,19 @@ class _HomeStateCopyWithImpl<$R, $Out>
   @override
   $R call(
           {WorkMode? mode,
-          bool? isRunning,
+          HomeStateStatus? status,
           Duration? elapsedTime,
           Duration? remainingTime}) =>
       $apply(FieldCopyWithData({
         if (mode != null) #mode: mode,
-        if (isRunning != null) #isRunning: isRunning,
+        if (status != null) #status: status,
         if (elapsedTime != null) #elapsedTime: elapsedTime,
         if (remainingTime != null) #remainingTime: remainingTime
       }));
   @override
   HomeState $make(CopyWithData data) => HomeState(
       mode: data.get(#mode, or: $value.mode),
-      isRunning: data.get(#isRunning, or: $value.isRunning),
+      status: data.get(#status, or: $value.status),
       elapsedTime: data.get(#elapsedTime, or: $value.elapsedTime),
       remainingTime: data.get(#remainingTime, or: $value.remainingTime));
 

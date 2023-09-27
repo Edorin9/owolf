@@ -25,18 +25,15 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> initiateStopWatch() async {
-    emit(state.copyWith(isRunning: true));
-    // cancel subscription before starting another
     await _tickSubscription?.cancel();
-    // listen to count up ticks
-    _tickSubscription = countUp().listen((int ticks) {
+    emit(state.copyWith(status: HomeStateStatus.running));
+    _tickSubscription = countUpTicker().listen((int ticks) {
       final elapsedTime = Duration(seconds: ticks);
       emit(state.copyWith(elapsedTime: elapsedTime));
     });
   }
 
   Future<void> resetStopwatch() async {
-    // unsubscribe to ticks - reset state
     await _tickSubscription?.cancel();
     emit(const HomeState());
   }
