@@ -47,7 +47,15 @@ class _BreakView extends StatelessWidget {
           child: Stack(
             children: [
               StatusBackground(),
-              _Content(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(height: 27),
+                  DisplayImage(),
+                  TimerFace(),
+                  ResumeButton(),
+                ],
+              ),
             ],
           ),
         ),
@@ -61,26 +69,13 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const SizedBox(height: 27),
-        const DisplayImage(),
-        const TimerFace(),
-        // Text(
-        //   'Text test',
-        //   style: Theme.of(context).textTheme.displayLarge?.copyWith(
-        //         color: Colors.grey.shade900,
-        //         fontSize: 18,
-        //         height: 1.5,
-        //         fontWeight: FontWeight.w300,
-        //       ),
-        // ),
-        Container(
-          padding: const EdgeInsets.all(18),
-          width: double.infinity,
-          child: const ResumeButton(),
-        ),
+        SizedBox(height: 27),
+        DisplayImage(),
+        TimerFace(),
+        ResumeButton(),
       ],
     );
   }

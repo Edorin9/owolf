@@ -9,22 +9,17 @@ class TimerFace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<
-        BreakCubit,
-        BreakState,
-        ({
-          String formattedTime,
-          bool isCompleted,
-        })>(
+    return BlocSelector<BreakCubit, BreakState,
+        ({String formattedTime, bool isCompleted})>(
       selector: (state) => (
         formattedTime: state.remainingTime.timerFormat,
         isCompleted: state.status == BreakStateStatus.completed
       ),
-      builder: (context, selected) => Text(
-        selected.formattedTime,
+      builder: (_, state) => Text(
+        state.formattedTime,
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
               fontSize: 81,
-              color: selected.isCompleted ? Colors.white : Colors.grey.shade900,
+              color: state.isCompleted ? Colors.white : Colors.grey.shade900,
             ),
       ),
     );
