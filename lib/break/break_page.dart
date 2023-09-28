@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
-import '../../home/models/work_mode.dart';
-import '../cubit/break_cubit.dart';
-import '../widgets/widgets.dart';
+import '../home/models/work_mode.dart';
+import 'cubit/break_cubit.dart';
+import 'widgets/widgets.dart';
 
 class BreakPage extends StatelessWidget {
   const BreakPage._();
