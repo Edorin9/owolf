@@ -1,10 +1,9 @@
 import 'dart:async';
 
+import 'package:common/extensions.dart';
 import 'package:common/helpers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:common/extensions.dart';
 
 import '../models/work_mode.dart';
 

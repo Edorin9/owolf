@@ -63,20 +63,3 @@ class _BreakView extends StatelessWidget {
     );
   }
 }
-
-class _Content extends StatelessWidget {
-  const _Content();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(height: 27),
-        DisplayImage(),
-        TimerFace(),
-        ResumeButton(),
-      ],
-    );
-  }
-}
