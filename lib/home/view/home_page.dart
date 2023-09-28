@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:common/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:utility/extensions.dart';
 
-import '../break/break_page.dart';
-import 'cubit/home_cubit.dart';
-import 'models/models.dart';
+import '../../break/view/break_page.dart';
+import '../../common/models/models.dart';
+import '../cubit/cubit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

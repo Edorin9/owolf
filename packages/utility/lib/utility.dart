@@ -1,4 +1,4 @@
-library common;
+library utility;
 
 export 'extensions.dart';
 export 'helpers.dart';

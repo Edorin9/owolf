@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:common/helpers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:utility/helpers.dart';
 
-import '../../home/models/work_mode.dart';
+import '../../common/models/work_mode.dart';
 
 part 'break_cubit.mapper.dart';
-
 part 'break_state.dart';
 
 class BreakCubit extends Cubit<BreakState> {
