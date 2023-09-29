@@ -15,7 +15,7 @@ class TimerFace extends StatelessWidget {
         formattedTime: state.remainingTime.timerFormat,
         isCompleted: state.status == BreakStateStatus.completed
       ),
-      builder: (_, state) => Text(
+      builder: (context, state) => Text(
         state.formattedTime,
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
               fontSize: 81,

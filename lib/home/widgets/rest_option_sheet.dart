@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../common/models/rest_option.dart';
 import '../cubit/home_cubit.dart';
@@ -8,11 +9,14 @@ import '../cubit/home_cubit.dart';
 class RestOptionSheet extends StatelessWidget {
   const RestOptionSheet({super.key});
 
-  static Future<RestOption> show(BuildContext context) async {
+  static Future<RestOption> show(BuildContext invokerContext) async {
     return await showModalBottomSheet<RestOption>(
-          context: context,
+          context: invokerContext,
           isScrollControlled: true,
-          builder: (_) => const RestOptionSheet(),
+          builder: (context) => BlocProvider.value(
+            value: invokerContext.read<HomeCubit>(),
+            child: const RestOptionSheet(),
+          ),
         ) ??
         RestOption.cancel;
   }
@@ -39,15 +43,13 @@ class RestOptionSheet extends StatelessWidget {
 }
 
 class _MessageText extends StatelessWidget {
-  const _MessageText({
-    super.key,
-  });
+  const _MessageText();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      bloc: context.read<HomeCubit>(),
-      builder: (_, state) => RichText(
+    return BlocSelector<HomeCubit, HomeState, int>(
+      selector: (state) => state.breakDuration.inMinutes,
+      builder: (context, breakDuration) => RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
@@ -61,7 +63,7 @@ class _MessageText extends StatelessWidget {
             // ignore: lines_longer_than_80_chars
             TextSpan(
               text:
-                  'break for ${state.breakDuration.inMinutes} minute${state.breakDuration.inMinutes > 1 ? 's' : ''} ',
+                  'break for $breakDuration minute${breakDuration > 1 ? 's' : ''} ',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const TextSpan(text: 'or '),
@@ -98,10 +100,8 @@ class _TakeBreakButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      onPressed: () {
-        // stop normal timer - start break countdown timer
-        Navigator.pop(context, RestOption.takeBreak);
-      },
+      // stop normal timer - start break countdown timer
+      onPressed: () => context.pop(RestOption.takeBreak),
       child: Icon(
         RestOption.takeBreak.icon,
         color: Colors.grey.shade900,
@@ -133,10 +133,8 @@ class _EndSessionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      onPressed: () {
-        // stop normal timer
-        Navigator.pop(context, RestOption.endSession);
-      },
+      // stop normal timer
+      onPressed: () => context.pop(RestOption.endSession),
       child: Icon(
         RestOption.endSession.icon,
         color: Colors.grey.shade900,

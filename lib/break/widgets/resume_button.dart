@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:go_router/go_router.dart';
 
 import '../cubit/break_cubit.dart';
 
@@ -21,7 +22,7 @@ class ResumeButton extends StatelessWidget {
             disabledColor: Colors.grey.shade200,
             onPressed: () async {
               FlutterRingtonePlayer.stop();
-              if (context.mounted) Navigator.of(context).pop();
+              if (context.mounted) context.pop();
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:utility/extensions.dart';
 
 import '../../break/view/break_page.dart';
@@ -37,10 +38,10 @@ class Timer extends StatelessWidget {
             selector: (state) => state.status,
             builder: (context, state) => CupertinoButton(
               onPressed: () async {
-                final homeBloc = context.read<HomeCubit>();
+                final homeCubit = context.read<HomeCubit>();
                 if (state == HomeStateStatus.idle) {
                   // start timer
-                  homeBloc.initiateStopWatch();
+                  homeCubit.initiateStopWatch();
                 } else {
                   // show sheet to choose restOption
                   final restOption = await RestOptionSheet.show(context);
@@ -59,19 +60,20 @@ class Timer extends StatelessWidget {
                       //   }
                       //   return;
                       // }
-                      homeBloc.resetStopwatch();
+                      homeCubit.resetStopwatch();
                       if (context.mounted) {
-                        await Navigator.of(context).push(
-                          BreakPage.route(
-                            duration: homeBloc.state.breakDuration,
+                        await context.pushNamed(
+                          BreakPage.routeName,
+                          extra: BreakPageArgs(
+                            duration: homeCubit.state.breakDuration,
                             referenceMode: WorkMode.normal,
                           ),
                         );
-                        homeBloc.initiateStopWatch();
+                        homeCubit.initiateStopWatch();
                       }
                       break;
                     case RestOption.endSession:
-                      homeBloc.resetStopwatch();
+                      homeCubit.resetStopwatch();
                       break;
                     case RestOption.cancel:
                       break;

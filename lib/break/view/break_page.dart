@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../common/models/work_mode.dart';
 import '../cubit/cubit.dart';
 import '../widgets/widgets.dart';
 
 class BreakPage extends StatelessWidget {
-  const BreakPage._();
+  const BreakPage({super.key, required this.args});
 
-  static Route<void> route({
-    required Duration duration,
-    required WorkMode referenceMode,
-  }) =>
-      MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (context) =>
-              BreakCubit(duration, referenceMode)..initiateCountdown(),
-          child: const BreakPage._(),
-        ),
-      );
+  final BreakPageArgs args;
+
+  static const routeName = 'break';
+  static const routePath = '/break';
+
+  static GoRoute route = GoRoute(
+    name: routeName,
+    path: routePath,
+    builder: (context, state) => BreakPage(
+      args: state.extra as BreakPageArgs,
+    ),
+  );
 
   @override
-  Widget build(BuildContext context) => const _BreakView();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => BreakCubit(
+        args.duration,
+        args.referenceMode,
+      )..initiateCountdown(),
+      child: const _BreakView(),
+    );
+  }
 }
 
 class _BreakView extends StatelessWidget {
@@ -62,4 +72,11 @@ class _BreakView extends StatelessWidget {
       ),
     );
   }
+}
+
+class BreakPageArgs {
+  BreakPageArgs({required this.duration, required this.referenceMode});
+
+  final Duration duration;
+  final WorkMode referenceMode;
 }
