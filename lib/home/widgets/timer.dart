@@ -48,18 +48,6 @@ class Timer extends StatelessWidget {
                   // handle chosen restOption
                   switch (restOption) {
                     case RestOption.takeBreak:
-                      // // cancel break if computed break duration is zero or less
-                      // if (homeBloc.state.breakDuration.inSeconds <= 0) {
-                      //   if (context.mounted) {
-                      //     ScaffoldMessenger.of(context).showSnackBar(
-                      //       SnackBar(
-                      //         content: const Text('Time worked is not enough!'),
-                      //         backgroundColor: Colors.red.shade900,
-                      //       ),
-                      //     );
-                      //   }
-                      //   return;
-                      // }
                       homeCubit.resetStopwatch();
                       if (context.mounted) {
                         await context.pushNamed(
