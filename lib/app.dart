@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import 'break/view/break_page.dart';
 import 'home/view/home_page.dart';
 
 class App extends StatelessWidget {
@@ -7,9 +9,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      routerConfig: GoRouter(
+        routes: [
+          HomePage.route,
+          BreakPage.route,
+        ],
+      ),
     );
   }
 }
