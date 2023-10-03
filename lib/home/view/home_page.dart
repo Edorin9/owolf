@@ -69,25 +69,56 @@ class _HomeView extends StatelessWidget {
       },
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: const Scaffold(
-          body: Stack(
-            children: [
-              SafeArea(
-                child: Column(
-                  children: [
-                    HeaderActions(),
-                    SizedBox(height: 24),
-                    PeriodicStatusTexts(),
-                    Timer(),
-                  ],
+        child: WillPopScope(
+          onWillPop: () async => await _onWillPop(context),
+          child: const Scaffold(
+            body: Stack(
+              children: [
+                SafeArea(
+                  child: Column(
+                    children: [
+                      HeaderActions(),
+                      SizedBox(height: 16),
+                      PeriodicStatusTexts(),
+                      Timer(),
+                    ],
+                  ),
                 ),
-              ),
-              ProxyTaskField(),
-              // TODO(Edorin9): future - _DraggableTasksSheet(),
-            ],
+                ProxyTaskField(),
+                // TODO(Edorin9): future - _DraggableTasksSheet(),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    return await showDialog(
+          context: context,
+          builder: (context) => AlertDialog.adaptive(
+            title: const Text('Are you sure?'),
+            content: const Text('Do you want to exit Owolf?'),
+            actions: <Widget>[
+              OutlinedButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  side: const BorderSide(width: 2, color: Colors.black),
+                ),
+                child: const Text('No', style: TextStyle(color: Colors.black)),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: FilledButton.styleFrom(backgroundColor: Colors.black),
+                child: const Text('Yes', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 }
