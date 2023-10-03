@@ -52,21 +52,24 @@ class _BreakView extends StatelessWidget {
           asAlarm: false,
         );
       },
-      child: const Scaffold(
-        body: Center(
-          child: Stack(
-            children: [
-              StatusBackground(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(height: 27),
-                  DisplayImage(),
-                  TimerFace(),
-                  ResumeButton(),
-                ],
-              ),
-            ],
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: const Scaffold(
+          body: Center(
+            child: Stack(
+              children: [
+                StatusBackground(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(height: 27),
+                    DisplayImage(),
+                    TimerFace(),
+                    ResumeButton(),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
