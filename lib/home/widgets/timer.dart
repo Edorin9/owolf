@@ -23,54 +23,29 @@ class Timer extends StatelessWidget {
           //   height: MediaQuery.of(context).size.height / 7,
           // ),
           // timer display
-          BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) => Text(
-              state.elapsedTime.timerFormat,
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    fontSize: 81,
-                    color: Colors.grey.shade900,
-                  ),
-            ),
+          BlocSelector<HomeCubit, HomeState, Duration>(
+            selector: (state) => state.time,
+            builder: (context, startTime) {
+              return Text(
+                startTime.timerFormat,
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      fontSize: 81,
+                      color: Colors.grey.shade900,
+                    ),
+              );
+            },
           ),
           const SizedBox(height: 9),
           // play/stop button
-          BlocSelector<HomeCubit, HomeState, HomeStateStatus>(
-            selector: (state) => state.status,
+          BlocBuilder<HomeCubit, HomeState>(
+            buildWhen: (previous, next) => previous.status != next.status,
             builder: (context, state) => CupertinoButton(
-              onPressed: () async {
-                final homeCubit = context.read<HomeCubit>();
-                if (state == HomeStateStatus.idle) {
-                  // start timer
-                  homeCubit.initiateStopWatch();
-                } else {
-                  // show sheet to choose restOption
-                  final restOption = await RestOptionSheet.show(context);
-                  // handle chosen restOption
-                  switch (restOption) {
-                    case RestOption.takeBreak:
-                      homeCubit.resetStopwatch();
-                      if (context.mounted) {
-                        await context.pushNamed(
-                          BreakPage.routeName,
-                          extra: BreakPageArgs(
-                            duration: homeCubit.state.breakDuration,
-                            referenceMode: WorkMode.normal,
-                          ),
-                        );
-                        homeCubit.initiateStopWatch();
-                      }
-                      break;
-                    case RestOption.endSession:
-                      homeCubit.resetStopwatch();
-                      break;
-                    case RestOption.cancel:
-                      break;
-                  }
-                }
+              onPressed: () {
+                _handleTimerControl(context);
               },
               minSize: 0,
               child: Icon(
-                state == HomeStateStatus.running
+                state.status == HomeStateStatus.running
                     ? CupertinoIcons.stop_fill
                     : CupertinoIcons.play_arrow_solid,
                 color: Colors.grey.shade900,
@@ -85,5 +60,55 @@ class Timer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _handleTimerControl(BuildContext context) async {
+    final homeCubit = context.read<HomeCubit>();
+    if (homeCubit.state.status == HomeStateStatus.idle) {
+      // start timer
+      homeCubit.initTimer();
+    } else {
+      // show sheet to choose restOption
+      final restOption = await RestOptionSheet.show(context);
+      // handle chosen restOption
+      switch (restOption) {
+        case RestOption.takeBreak:
+          switch (homeCubit.state.mode) {
+            case WorkMode.fluid:
+              homeCubit.resetTimer();
+              if (context.mounted) {
+                await context.pushNamed(
+                  BreakPage.routeName,
+                  extra: BreakPageArgs(
+                    duration: homeCubit.state.getBreakDuration(),
+                    referenceMode: WorkMode.fluid,
+                  ),
+                );
+                homeCubit.initTimer();
+              }
+            case WorkMode.periodic:
+              homeCubit.stopTicks();
+              if (context.mounted) {
+                await context.pushNamed(
+                  BreakPage.routeName,
+                  extra: BreakPageArgs(
+                    duration: homeCubit.state.getBreakDuration(),
+                    referenceMode: WorkMode.periodic,
+                  ),
+                );
+                homeCubit
+                  ..resetTimer()
+                  ..initTimer();
+              }
+          }
+
+          break;
+        case RestOption.endSession:
+          homeCubit.resetTimer();
+          break;
+        case RestOption.cancel:
+          break;
+      }
+    }
   }
 }

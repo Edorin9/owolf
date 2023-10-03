@@ -5,23 +5,26 @@ enum HomeStateStatus { idle, running }
 @MappableClass()
 class HomeState with HomeStateMappable {
   const HomeState({
-    this.mode = WorkMode.normal,
     this.status = HomeStateStatus.idle,
-    this.elapsedTime = Duration.zero,
-    this.remainingTime = Duration.zero,
+    this.mode = WorkMode.periodic,
+    this.time = Duration.zero,
+    this.period = 0,
   });
 
-  final WorkMode mode;
   final HomeStateStatus status;
-  final Duration elapsedTime;
-  final Duration remainingTime;
+  final WorkMode mode;
+  final Duration time;
+  final int period;
 
-  // TODO: implement configurability on preferences
-  Duration get breakDuration => elapsedTime > 90.minutes
-      ? 15.minutes
-      : elapsedTime > 50.minutes && elapsedTime <= 90.minutes
-          ? 10.minutes
-          : elapsedTime > 25.minutes && elapsedTime <= 50.minutes
-              ? 8.minutes
-              : 5.minutes;
+  Duration getBreakDuration({double breakMinutesPerPeriod = 5}) =>
+      switch (mode) {
+        WorkMode.fluid => time > 90.minutes
+            ? 15.minutes
+            : time > 50.minutes && time <= 90.minutes
+                ? 10.minutes
+                : time > 25.minutes && time <= 50.minutes
+                    ? 8.minutes
+                    : 5.minutes,
+        WorkMode.periodic => (period * breakMinutesPerPeriod).minutes
+      };
 }
