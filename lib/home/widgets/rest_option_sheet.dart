@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/models/rest_option.dart';
+import '../../common/models/models.dart';
 import '../cubit/home_cubit.dart';
 
 class RestOptionSheet extends StatelessWidget {
@@ -23,17 +23,20 @@ class RestOptionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(25, 25, 25, 16),
+    final mode = context.read<HomeCubit>().state.mode;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(25, 25, 25, 16),
       child: Wrap(
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _MessageText(),
-              SizedBox(height: 5),
-              _OptionsRow(),
+              mode == WorkMode.fluid
+                  ? const _FluidMessageText()
+                  : const _PeriodicMessageText(),
+              const SizedBox(height: 5),
+              const _OptionsRow(),
             ],
           ),
         ],
@@ -42,13 +45,13 @@ class RestOptionSheet extends StatelessWidget {
   }
 }
 
-class _MessageText extends StatelessWidget {
-  const _MessageText();
+class _FluidMessageText extends StatelessWidget {
+  const _FluidMessageText();
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, int>(
-      selector: (state) => state.breakDuration.inMinutes,
+      selector: (state) => state.getBreakDuration().inMinutes,
       builder: (context, breakDuration) => RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -78,18 +81,90 @@ class _MessageText extends StatelessWidget {
   }
 }
 
+class _PeriodicMessageText extends StatelessWidget {
+  const _PeriodicMessageText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        BlocSelector<HomeCubit, HomeState, int>(
+          selector: (state) => state.period,
+          builder: (context, period) => period == 0
+              ? RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          color: Colors.grey.shade900,
+                          fontSize: 18,
+                          height: 1.5,
+                          fontWeight: FontWeight.w300,
+                        ),
+                    children: const [
+                      TextSpan(
+                        text:
+                            'Do you want to drop current period’s progress and ',
+                      ),
+                      TextSpan(
+                        text: 'end session',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(text: '?'),
+                    ],
+                  ),
+                )
+              : const SizedBox(),
+        ),
+        BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) => state.period > 0
+              ? RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          color: Colors.grey.shade900,
+                          fontSize: 18,
+                          height: 1.5,
+                          fontWeight: FontWeight.w300,
+                        ),
+                    children: [
+                      const TextSpan(text: 'Do you want to start a '),
+                      TextSpan(
+                        text: '${state.getBreakDuration().inMinutes}-minute ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const TextSpan(
+                          text: 'break and drop current period’s progress or '),
+                      const TextSpan(
+                        text: 'end whole session?',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox(),
+        ),
+      ],
+    );
+  }
+}
+
 class _OptionsRow extends StatelessWidget {
   const _OptionsRow();
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _TakeBreakButton(),
-        _OrText(),
-        _EndSessionButton(),
-      ],
+    return BlocSelector<HomeCubit, HomeState, bool>(
+      selector: (state) => state.mode == WorkMode.fluid || state.period >= 1,
+      builder: (context, isFluidOrHasPeriod) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            isFluidOrHasPeriod ? const _TakeBreakButton() : const SizedBox(),
+            isFluidOrHasPeriod ? const _OrText() : const SizedBox(),
+            const _EndSessionButton(),
+          ],
+        );
+      },
     );
   }
 }

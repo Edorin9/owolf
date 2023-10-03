@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:utility/extensions.dart';
 import 'package:utility/helpers.dart';
 
 import '../../common/models/work_mode.dart';
@@ -30,7 +31,7 @@ class BreakCubit extends Cubit<BreakState> {
   }
 
   void _handleTick(int tickCount) {
-    final remainingTime = Duration(seconds: tickCount);
+    final remainingTime = tickCount.seconds;
     emit(state.copyWith(remainingTime: remainingTime));
     if (remainingTime.inSeconds == 0) _endCountdown();
   }
