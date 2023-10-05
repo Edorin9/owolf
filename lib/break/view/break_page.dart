@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utility/constants.dart';
 
 import '../../common/models/work_mode.dart';
 import '../cubit/cubit.dart';
@@ -64,7 +65,7 @@ class _BreakView extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(height: 27),
+                gapH24,
                 DisplayImage(),
                 TimerFace(),
                 ResumeButton(),

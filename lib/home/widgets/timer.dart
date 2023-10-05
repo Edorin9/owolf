@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:utility/extensions.dart';
+import 'package:utility/utility.dart';
 
 import '../../break/view/break_page.dart';
 import '../../common/models/models.dart';
@@ -35,7 +35,7 @@ class Timer extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: 9),
+          gapH8,
           // play/stop button
           BlocBuilder<HomeCubit, HomeState>(
             buildWhen: (previous, next) => previous.status != next.status,

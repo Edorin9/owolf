@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utility/constants.dart';
 
 import '../../common/models/work_mode.dart';
 import '../cubit/home_cubit.dart';
@@ -31,9 +32,9 @@ class ToggleModeDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const _Title(),
-            const SizedBox(height: 12),
+            gapH12,
             _Message(mode: mode),
-            const SizedBox(height: 16),
+            gapH16,
             _Actions(invokerContext)
           ],
         ),
@@ -91,7 +92,7 @@ class _Actions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const _NoButton(),
         _YesButton(invokerContext),
@@ -107,7 +108,10 @@ class _NoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       minSize: 0,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.p48,
+        vertical: Sizes.p12,
+      ),
       color: Colors.transparent,
       onPressed: () => context.pop(false),
       child: const Text(
@@ -130,7 +134,10 @@ class _YesButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       minSize: 0,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.p48,
+        vertical: Sizes.p12,
+      ),
       color: Colors.black,
       onPressed: () {
         invokerContext.read<HomeCubit>().toggleMode();

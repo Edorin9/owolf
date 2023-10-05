@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utility/constants.dart';
 
 import '../cubit/home_cubit.dart';
 
@@ -32,11 +33,11 @@ class StartBreakDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _Title(),
-            SizedBox(height: 12),
+            gapH12,
             _Message(),
-            SizedBox(height: 16),
+            gapH16,
             _StartBreakButton(),
-            SizedBox(height: 4),
+            gapH4,
             _ContinueButton(),
           ],
         ),
