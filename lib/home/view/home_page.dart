@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utility/constants.dart';
 
 import '../../break/view/break_page.dart';
 import '../../common/models/models.dart';
@@ -81,7 +82,7 @@ class _HomeView extends StatelessWidget {
             child: Column(
               children: [
                 HeaderActions(),
-                SizedBox(height: 16),
+                gapH16,
                 StatusTexts(),
                 Timer(),
               ],

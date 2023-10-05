@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utility/constants.dart';
 
 import '../../common/models/models.dart';
 import '../cubit/home_cubit.dart';
@@ -35,7 +36,7 @@ class RestOptionSheet extends StatelessWidget {
               mode == WorkMode.fluid
                   ? const _FluidMessage()
                   : const _PeriodicMessage(),
-              const SizedBox(height: 5),
+              gapH4,
               const _OptionsRow(),
             ],
           ),

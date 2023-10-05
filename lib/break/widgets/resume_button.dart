@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utility/constants.dart';
 
 import '../cubit/break_cubit.dart';
 
@@ -27,7 +28,7 @@ class ResumeButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               _Label(isCompleted),
-              const SizedBox(width: 4),
+              gapW4,
               _TrailingIcon(isCompleted),
             ],
           ),
