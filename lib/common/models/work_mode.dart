@@ -13,9 +13,9 @@ enum WorkMode {
   ///
   periodic;
 
-  /// Return the opposite of the current mode
+  /// Return the other mode
   ///
-  /// fluid to periodic and vise-versa
+  /// fluid to periodic and vice-versa
   ///
   WorkMode get opposite =>
       this == WorkMode.fluid ? WorkMode.periodic : WorkMode.fluid;

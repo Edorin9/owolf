@@ -26,9 +26,9 @@ class ResumeButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _ButtonText(isCompleted),
+              _Label(isCompleted),
               const SizedBox(width: 4),
-              _ButtonIcon(isCompleted),
+              _TrailingIcon(isCompleted),
             ],
           ),
         ),
@@ -37,8 +37,8 @@ class ResumeButton extends StatelessWidget {
   }
 }
 
-class _ButtonText extends StatelessWidget {
-  const _ButtonText(this.isCompleted);
+class _Label extends StatelessWidget {
+  const _Label(this.isCompleted);
 
   final bool isCompleted;
 
@@ -55,8 +55,8 @@ class _ButtonText extends StatelessWidget {
   }
 }
 
-class _ButtonIcon extends StatelessWidget {
-  const _ButtonIcon(this.isCompleted);
+class _TrailingIcon extends StatelessWidget {
+  const _TrailingIcon(this.isCompleted);
 
   final bool isCompleted;
 

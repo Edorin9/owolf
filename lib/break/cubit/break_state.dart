@@ -19,7 +19,7 @@ class BreakState with BreakStateMappable {
   ///
   final Duration remainingTime;
 
-  /// Additional time spent after set break time
+  /// Additional break time spent after set time
   ///
   /// Accumulation starts when break time has ended,
   /// and ends when work is resumed.

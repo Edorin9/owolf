@@ -33,8 +33,8 @@ class RestOptionSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               mode == WorkMode.fluid
-                  ? const _FluidMessageText()
-                  : const _PeriodicMessageText(),
+                  ? const _FluidMessage()
+                  : const _PeriodicMessage(),
               const SizedBox(height: 5),
               const _OptionsRow(),
             ],
@@ -45,8 +45,8 @@ class RestOptionSheet extends StatelessWidget {
   }
 }
 
-class _FluidMessageText extends StatelessWidget {
-  const _FluidMessageText();
+class _FluidMessage extends StatelessWidget {
+  const _FluidMessage();
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +81,8 @@ class _FluidMessageText extends StatelessWidget {
   }
 }
 
-class _PeriodicMessageText extends StatelessWidget {
-  const _PeriodicMessageText();
+class _PeriodicMessage extends StatelessWidget {
+  const _PeriodicMessage();
 
   @override
   Widget build(BuildContext context) {
@@ -91,16 +91,16 @@ class _PeriodicMessageText extends StatelessWidget {
         BlocSelector<HomeCubit, HomeState, bool>(
           selector: (state) => state.period > 0,
           builder: (context, hasPeriod) => hasPeriod
-              ? const _RichNonZeroPeriodMessage()
-              : const _RichZeroPeriodMessage(),
+              ? const _NonZeroPeriodMessage()
+              : const _ZeroPeriodMessage(),
         ),
       ],
     );
   }
 }
 
-class _RichNonZeroPeriodMessage extends StatelessWidget {
-  const _RichNonZeroPeriodMessage();
+class _NonZeroPeriodMessage extends StatelessWidget {
+  const _NonZeroPeriodMessage();
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +136,8 @@ class _RichNonZeroPeriodMessage extends StatelessWidget {
   }
 }
 
-class _RichZeroPeriodMessage extends StatelessWidget {
-  const _RichZeroPeriodMessage();
+class _ZeroPeriodMessage extends StatelessWidget {
+  const _ZeroPeriodMessage();
 
   @override
   Widget build(BuildContext context) {

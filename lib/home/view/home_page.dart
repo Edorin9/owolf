@@ -82,7 +82,7 @@ class _HomeView extends StatelessWidget {
               children: [
                 HeaderActions(),
                 SizedBox(height: 16),
-                PeriodicStatusTexts(),
+                StatusTexts(),
                 Timer(),
               ],
             ),
