@@ -41,9 +41,9 @@ class _ToggleButton extends StatelessWidget {
           return Icon(
             switch (mode) {
               WorkMode.fluid => Icons.timer_rounded,
-              WorkMode.periodic => Icons.hourglass_full_rounded
+              WorkMode.periodic => Icons.hourglass_top_rounded
             },
-            color: Colors.grey.shade900,
+            color: Colors.black,
           );
         },
       ),
@@ -58,9 +58,9 @@ class _SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () => debugPrint('settings'),
-      child: Icon(
-        Icons.settings_rounded,
-        color: Colors.grey.shade900,
+      child: const Icon(
+        Icons.settings_input_component_rounded,
+        color: Colors.black,
       ),
     );
   }

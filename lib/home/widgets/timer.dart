@@ -46,10 +46,10 @@ class Timer extends StatelessWidget {
               minSize: 0,
               child: Icon(
                 state.status == HomeStateStatus.running
-                    ? CupertinoIcons.stop_fill
-                    : CupertinoIcons.play_arrow_solid,
+                    ? Icons.stop_circle_rounded
+                    : Icons.play_circle_rounded,
                 color: Colors.grey.shade900,
-                size: 45,
+                size: 56,
               ),
             ),
           ),
