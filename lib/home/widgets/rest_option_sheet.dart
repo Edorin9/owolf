@@ -88,62 +88,79 @@ class _PeriodicMessageText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BlocSelector<HomeCubit, HomeState, int>(
-          selector: (state) => state.period,
-          builder: (context, period) => period == 0
-              ? RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                          color: Colors.grey.shade900,
-                          fontSize: 18,
-                          height: 1.5,
-                          fontWeight: FontWeight.w300,
-                        ),
-                    children: const [
-                      TextSpan(
-                        text:
-                            'Do you want to drop current period’s progress and ',
-                      ),
-                      TextSpan(
-                        text: 'end session',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(text: '?'),
-                    ],
-                  ),
-                )
-              : const SizedBox(),
-        ),
-        BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) => state.period > 0
-              ? RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                          color: Colors.grey.shade900,
-                          fontSize: 18,
-                          height: 1.5,
-                          fontWeight: FontWeight.w300,
-                        ),
-                    children: [
-                      const TextSpan(text: 'Do you want to start a '),
-                      TextSpan(
-                        text: '${state.getBreakDuration().inMinutes}-minute ',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const TextSpan(
-                          text: 'break and drop current period’s progress or '),
-                      const TextSpan(
-                        text: 'end whole session?',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                )
-              : const SizedBox(),
+        BlocSelector<HomeCubit, HomeState, bool>(
+          selector: (state) => state.period > 0,
+          builder: (context, hasPeriod) => hasPeriod
+              ? const _RichNonZeroPeriodMessage()
+              : const _RichZeroPeriodMessage(),
         ),
       ],
+    );
+  }
+}
+
+class _RichNonZeroPeriodMessage extends StatelessWidget {
+  const _RichNonZeroPeriodMessage();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<HomeCubit, HomeState, Duration>(
+      selector: (state) => state.getBreakDuration(),
+      builder: (context, breakDuration) {
+        return RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  color: Colors.grey.shade900,
+                  fontSize: 18,
+                  height: 1.5,
+                  fontWeight: FontWeight.w300,
+                ),
+            children: [
+              const TextSpan(text: 'Do you want to start a '),
+              TextSpan(
+                text: '${breakDuration.inMinutes}-minute ',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(
+                  text: 'break and drop current period’s progress or '),
+              const TextSpan(
+                text: 'end whole session?',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _RichZeroPeriodMessage extends StatelessWidget {
+  const _RichZeroPeriodMessage();
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              color: Colors.grey.shade900,
+              fontSize: 18,
+              height: 1.5,
+              fontWeight: FontWeight.w300,
+            ),
+        children: const [
+          TextSpan(
+            text: 'Do you want to drop current period’s progress and ',
+          ),
+          TextSpan(
+            text: 'end session',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(text: '?'),
+        ],
+      ),
     );
   }
 }

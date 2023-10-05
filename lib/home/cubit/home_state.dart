@@ -11,11 +11,28 @@ class HomeState with HomeStateMappable {
     this.period = 0,
   });
 
+  /// Status of [HomeState]
+  /// 
   final HomeStateStatus status;
+
+  /// Active timer mode
+  /// 
   final WorkMode mode;
+
+  /// Current time [Duration] set on the timer
+  /// 
   final Duration time;
+
+  /// Number of intervals ran in [WorkMode.periodic] timer
+  ///
+  /// Used as multiplicand for computing length of break time
+  /// 
   final int period;
 
+  /// Compute for the length of break time depending on the [WorkMode] active.
+  ///
+  /// [breakMinutesPerPeriod] is the multiplier for [period]
+  /// 
   Duration getBreakDuration({double breakMinutesPerPeriod = 5}) =>
       switch (mode) {
         WorkMode.fluid => time > 90.minutes

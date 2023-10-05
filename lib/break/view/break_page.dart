@@ -29,8 +29,24 @@ class BreakPage extends StatelessWidget {
       create: (context) => BreakCubit(
         args.duration,
         args.referenceMode,
-      )..initiateCountdown(),
-      child: const _BreakView(),
+      )..startCountdown(),
+      child: BlocListener<BreakCubit, BreakState>(
+        listenWhen: (previous, current) =>
+            previous.status != current.status &&
+            current.status == BreakStateStatus.completed,
+        listener: (context, state) async {
+          await FlutterRingtonePlayer.play(
+            android: AndroidSounds.notification,
+            ios: IosSounds.glass,
+            looping: true,
+            asAlarm: false,
+          );
+        },
+        child: WillPopScope(
+          onWillPop: () async => false,
+          child: const _BreakView(),
+        ),
+      ),
     );
   }
 }
@@ -40,37 +56,21 @@ class _BreakView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BreakCubit, BreakState>(
-      listenWhen: (previous, current) =>
-          previous.status != current.status &&
-          current.status == BreakStateStatus.completed,
-      listener: (context, state) async {
-        await FlutterRingtonePlayer.play(
-          android: AndroidSounds.notification,
-          ios: IosSounds.glass,
-          looping: true,
-          asAlarm: false,
-        );
-      },
-      child: WillPopScope(
-        onWillPop: () async => false,
-        child: const Scaffold(
-          body: Center(
-            child: Stack(
+    return const Scaffold(
+      body: Center(
+        child: Stack(
+          children: [
+            StatusBackground(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                StatusBackground(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(height: 27),
-                    DisplayImage(),
-                    TimerFace(),
-                    ResumeButton(),
-                  ],
-                ),
+                SizedBox(height: 27),
+                DisplayImage(),
+                TimerFace(),
+                ResumeButton(),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

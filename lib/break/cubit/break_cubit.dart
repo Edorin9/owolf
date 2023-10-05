@@ -24,7 +24,7 @@ class BreakCubit extends Cubit<BreakState> {
     return super.close();
   }
 
-  Future<void> initiateCountdown() async {
+  Future<void> startCountdown() async {
     await _tickSubscription?.cancel();
     emit(state.copyWith(status: BreakStateStatus.running));
     _tickSubscription = countdown(state.remainingTime).listen(_handleTick);

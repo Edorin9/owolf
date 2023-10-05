@@ -11,32 +11,37 @@ class PeriodicStatusTexts extends StatelessWidget {
   Widget build(BuildContext context) {
     final mode = context.read<HomeCubit>().state.mode;
     return mode == WorkMode.periodic
-        ? Column(
+        ? const _RichPeriodStatusText()
+        : const SizedBox();
+  }
+}
+
+class _RichPeriodStatusText extends StatelessWidget {
+  const _RichPeriodStatusText();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<HomeCubit, HomeState, int>(
+      selector: (state) => state.period,
+      builder: (context, period) {
+        return Text.rich(
+          TextSpan(
+            style: const TextStyle(fontSize: 16),
             children: [
-              BlocSelector<HomeCubit, HomeState, int>(
-                selector: (state) => state.period,
-                builder: (context, period) {
-                  return Text.rich(
-                    TextSpan(
-                      style: const TextStyle(fontSize: 16),
-                      children: [
-                        TextSpan(
-                          text: '$period ',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'period${period == 1 ? '' : 's'} completed',
-                        ),
-                      ],
-                    ),
-                  );
-                },
+              TextSpan(
+                text: '$period ',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextSpan(
+                text: 'period${period == 1 ? '' : 's'} completed',
               ),
             ],
-          )
-        : const SizedBox();
+          ),
+        );
+      },
+    );
   }
 }

@@ -10,14 +10,12 @@ class DisplayImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<BreakCubit, BreakState, bool>(
       selector: (state) => state.status == BreakStateStatus.completed,
-      builder: (context, isCompleted) {
-        return Image.asset(
-          'assets/coffee.png',
-          height: 163,
-          color: isCompleted ? Colors.white : Colors.black,
-          colorBlendMode: BlendMode.srcATop,
-        );
-      },
+      builder: (context, isCompleted) => Image.asset(
+        'assets/coffee.png',
+        height: 163,
+        color: isCompleted ? Colors.white : Colors.black,
+        colorBlendMode: BlendMode.srcATop,
+      ),
     );
   }
 }

@@ -45,7 +45,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> initTimer() async {
+  Future<void> startTimer() async {
     await _tickSubscription?.cancel();
     emit(state.copyWith(status: HomeStateStatus.running));
     _startTicks();
@@ -62,20 +62,24 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  /// Used to stop the tick subscription without clearing the state.
+  ///
+  /// Utilize this in place of [resetTimer] if you want to stop the ticker
+  /// from triggering further state updates.
   Future<void> stopTicks() async => await _tickSubscription?.cancel();
 
   void _startTicks() {
     _tickSubscription = switch (state.mode) {
       WorkMode.fluid => countUp().listen(_handleFluidTick),
       WorkMode.periodic =>
-        countdown(minutesInPeriod.minutes).listen(_handlePeriodicTick)
+        countdown(minutesInPeriod.minutes).listen(_handleCountdownTick)
     };
   }
 
   void _handleFluidTick(int tickCount) =>
       emit(state.copyWith(time: tickCount.seconds));
 
-  void _handlePeriodicTick(int tickCount) async {
+  void _handleCountdownTick(int tickCount) async {
     if (tickCount == 0) {
       await _tickSubscription?.cancel();
       emit(
@@ -85,7 +89,13 @@ class HomeCubit extends Cubit<HomeState> {
           period: state.period + 1,
         ),
       );
-      initTimer();
+      // status is set to .running right after it was set to .idle
+      // to start counting down again immediately
+      // (behavior for periodic mode)
+      // we will not interrupt the user's timer for the next period
+      // if they intend to continue working
+      emit(state.copyWith(status: HomeStateStatus.running));
+      _startTicks();
     } else {
       emit(state.copyWith(time: tickCount.seconds));
     }
