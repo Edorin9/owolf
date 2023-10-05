@@ -4,28 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/models/models.dart';
 import '../cubit/break_cubit.dart';
 
 class ResumeButton extends StatelessWidget {
   const ResumeButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocSelector<BreakCubit, BreakState, bool>(
-      selector: (state) =>
-          state.status == BreakStateStatus.completed ||
-          state.referenceMode == WorkMode.fluid,
-      builder: (context, isFluidModeOrBreakComplete) =>
-          isFluidModeOrBreakComplete
-              ? const _Button()
-              : const SizedBox(width: double.infinity),
-    );
-  }
-}
-
-class _Button extends StatelessWidget {
-  const _Button();
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +26,9 @@ class _Button extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _ButtonText(isCompleted),
+              _Label(isCompleted),
               const SizedBox(width: 4),
-              _ButtonIcon(isCompleted),
+              _TrailingIcon(isCompleted),
             ],
           ),
         ),
@@ -55,8 +37,8 @@ class _Button extends StatelessWidget {
   }
 }
 
-class _ButtonText extends StatelessWidget {
-  const _ButtonText(this.isCompleted);
+class _Label extends StatelessWidget {
+  const _Label(this.isCompleted);
 
   final bool isCompleted;
 
@@ -73,8 +55,8 @@ class _ButtonText extends StatelessWidget {
   }
 }
 
-class _ButtonIcon extends StatelessWidget {
-  const _ButtonIcon(this.isCompleted);
+class _TrailingIcon extends StatelessWidget {
+  const _TrailingIcon(this.isCompleted);
 
   final bool isCompleted;
 

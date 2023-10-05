@@ -13,9 +13,11 @@ enum WorkMode {
   ///
   periodic;
 
-  /// Switch between [WorkMode.fluid] and [WorkMode.periodic].
+  /// Return the other mode
   ///
-  WorkMode toggle() =>
+  /// fluid to periodic and vice-versa
+  ///
+  WorkMode get opposite =>
       this == WorkMode.fluid ? WorkMode.periodic : WorkMode.fluid;
 
   /// Get starting time for timers

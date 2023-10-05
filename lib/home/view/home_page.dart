@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import '../../break/view/break_page.dart';
 import '../../common/models/models.dart';
 import '../cubit/cubit.dart';
-import '../widgets/exit_app_confirm_dialog.dart';
 import '../widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -83,7 +82,7 @@ class _HomeView extends StatelessWidget {
               children: [
                 HeaderActions(),
                 SizedBox(height: 16),
-                PeriodicStatusTexts(),
+                StatusTexts(),
                 Timer(),
               ],
             ),

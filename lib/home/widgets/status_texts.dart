@@ -4,20 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../common/models/work_mode.dart';
 import '../cubit/home_cubit.dart';
 
-class PeriodicStatusTexts extends StatelessWidget {
-  const PeriodicStatusTexts({super.key});
+class StatusTexts extends StatelessWidget {
+  const StatusTexts({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final mode = context.read<HomeCubit>().state.mode;
-    return mode == WorkMode.periodic
-        ? const _RichPeriodStatusText()
-        : const SizedBox();
+    return BlocSelector<HomeCubit, HomeState, bool>(
+      selector: (state) => state.mode == WorkMode.periodic,
+      builder: (context, isPeriodic) =>
+          isPeriodic ? const _PeriodStatus() : const SizedBox(),
+    );
   }
 }
 
-class _RichPeriodStatusText extends StatelessWidget {
-  const _RichPeriodStatusText();
+class _PeriodStatus extends StatelessWidget {
+  const _PeriodStatus();
 
   @override
   Widget build(BuildContext context) {

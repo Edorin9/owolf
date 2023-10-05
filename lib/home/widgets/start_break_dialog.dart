@@ -31,8 +31,10 @@ class StartBreakDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            _RichMessageText(),
-            SizedBox(height: 24),
+            _Title(),
+            SizedBox(height: 12),
+            _Message(),
+            SizedBox(height: 16),
             _StartBreakButton(),
             SizedBox(height: 4),
             _ContinueButton(),
@@ -43,8 +45,22 @@ class StartBreakDialog extends StatelessWidget {
   }
 }
 
-class _RichMessageText extends StatelessWidget {
-  const _RichMessageText();
+class _Title extends StatelessWidget {
+  const _Title();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Break Time!',
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+    );
+  }
+}
+
+class _Message extends StatelessWidget {
+  const _Message();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +68,10 @@ class _RichMessageText extends StatelessWidget {
       selector: (state) => state.getBreakDuration().inMinutes,
       builder: (context, breakDuration) {
         return Text.rich(
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(
+            fontSize: 16,
+            height: 1.5,
+          ),
           TextSpan(
             children: [
               const TextSpan(text: "It's time for your "),
@@ -75,7 +94,7 @@ class _StartBreakButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      color: Colors.lightGreen,
+      color: Colors.black,
       onPressed: () => context.pop(true),
       child: const Text(
         'Start break',
