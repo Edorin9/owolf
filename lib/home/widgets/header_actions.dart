@@ -6,25 +6,43 @@ class HeaderActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CupertinoButton(
-          onPressed: () => debugPrint('home'),
-          child: Icon(
-            CupertinoIcons.home,
-            color: Colors.grey.shade900,
-          ),
-        ),
-        CupertinoButton(
-          onPressed: () => debugPrint('settings'),
-          child: Icon(
-            CupertinoIcons.settings,
-            color: Colors.grey.shade900,
-          ),
-        ),
+        _ToggleButton(),
+        _SettingsButton(),
       ],
+    );
+  }
+}
+
+class _ToggleButton extends StatelessWidget {
+  const _ToggleButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      onPressed: () => debugPrint('home'),
+      child: Icon(
+        CupertinoIcons.home,
+        color: Colors.grey.shade900,
+      ),
+    );
+  }
+}
+
+class _SettingsButton extends StatelessWidget {
+  const _SettingsButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      onPressed: () => debugPrint('settings'),
+      child: Icon(
+        CupertinoIcons.settings,
+        color: Colors.grey.shade900,
+      ),
     );
   }
 }

@@ -66,7 +66,7 @@ class Timer extends StatelessWidget {
     final homeCubit = context.read<HomeCubit>();
     if (homeCubit.state.status == HomeStateStatus.idle) {
       // start timer
-      homeCubit.initTimer();
+      homeCubit.startTimer();
     } else {
       // show sheet to choose restOption
       final restOption = await RestOptionSheet.show(context);
@@ -84,7 +84,7 @@ class Timer extends StatelessWidget {
                     referenceMode: WorkMode.fluid,
                   ),
                 );
-                homeCubit.initTimer();
+                homeCubit.startTimer();
               }
             case WorkMode.periodic:
               homeCubit.stopTicks();
@@ -98,7 +98,7 @@ class Timer extends StatelessWidget {
                 );
                 homeCubit
                   ..resetTimer()
-                  ..initTimer();
+                  ..startTimer();
               }
           }
 

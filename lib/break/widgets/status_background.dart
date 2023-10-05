@@ -10,13 +10,11 @@ class StatusBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<BreakCubit, BreakState, bool>(
       selector: (state) => state.status == BreakStateStatus.completed,
-      builder: (context, isCompleted) {
-        return Container(
-          color: isCompleted
-              ? Colors.red.shade900
-              : Theme.of(context).scaffoldBackgroundColor,
-        );
-      },
+      builder: (context, isCompleted) => Container(
+        color: isCompleted
+            ? Colors.red.shade900
+            : Theme.of(context).scaffoldBackgroundColor,
+      ),
     );
   }
 }
