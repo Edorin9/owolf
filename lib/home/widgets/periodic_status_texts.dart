@@ -9,10 +9,11 @@ class PeriodicStatusTexts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mode = context.read<HomeCubit>().state.mode;
-    return mode == WorkMode.periodic
-        ? const _RichPeriodStatusText()
-        : const SizedBox();
+    return BlocSelector<HomeCubit, HomeState, bool>(
+      selector: (state) => state.mode == WorkMode.periodic,
+      builder: (context, isPeriodic) =>
+          isPeriodic ? const _RichPeriodStatusText() : const SizedBox(),
+    );
   }
 }
 

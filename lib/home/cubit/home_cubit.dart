@@ -35,7 +35,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void toggleMode() {
-    final newMode = state.mode.toggle();
+    final newMode = state.mode.opposite;
     emit(
       state.copyWith(
         mode: newMode,
@@ -62,21 +62,22 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  /// Used to stop the tick subscription without clearing the state.
+  /// Stop the tick subscription without clearing the state.
   ///
   /// Utilize this in place of [resetTimer] if you want to stop the ticker
   /// from triggering further state updates.
+  /// 
   Future<void> stopTicks() async => await _tickSubscription?.cancel();
 
   void _startTicks() {
     _tickSubscription = switch (state.mode) {
-      WorkMode.fluid => countUp().listen(_handleFluidTick),
+      WorkMode.fluid => countUp().listen(_handleCountUpTick),
       WorkMode.periodic =>
         countdown(minutesInPeriod.minutes).listen(_handleCountdownTick)
     };
   }
 
-  void _handleFluidTick(int tickCount) =>
+  void _handleCountUpTick(int tickCount) =>
       emit(state.copyWith(time: tickCount.seconds));
 
   void _handleCountdownTick(int tickCount) async {

@@ -75,7 +75,7 @@ class _StartBreakButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      color: Colors.lightGreen,
+      color: Colors.black,
       onPressed: () => context.pop(true),
       child: const Text(
         'Start break',
