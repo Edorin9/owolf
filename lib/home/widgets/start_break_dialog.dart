@@ -53,7 +53,7 @@ class _Title extends StatelessWidget {
     return Text(
       'Break Time!',
       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.bold,
           ),
     );
   }
