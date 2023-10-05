@@ -12,19 +12,21 @@ class BreakState with BreakStateMappable {
   });
 
   /// Status of [BreakState]
-  /// 
+  ///
   final BreakStateStatus status;
 
   /// Time remaining until break time is over
-  /// 
+  ///
   final Duration remainingTime;
 
-  /// Unused break time accumulated when you resume work
-  /// before the whole break time is expended
-  /// 
+  /// Additional time spent after set break time
+  ///
+  /// Accumulation starts when break time has ended,
+  /// and ends when work is resumed.
+  ///
   final Duration overbreakTime;
 
   /// Timer mode that started the break time
-  /// 
+  ///
   final WorkMode referenceMode;
 }

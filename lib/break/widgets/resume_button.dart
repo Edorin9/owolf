@@ -4,28 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/models/models.dart';
 import '../cubit/break_cubit.dart';
 
 class ResumeButton extends StatelessWidget {
   const ResumeButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocSelector<BreakCubit, BreakState, bool>(
-      selector: (state) =>
-          state.status == BreakStateStatus.completed ||
-          state.referenceMode == WorkMode.fluid,
-      builder: (context, isFluidModeOrBreakComplete) =>
-          isFluidModeOrBreakComplete
-              ? const _Button()
-              : const SizedBox(width: double.infinity),
-    );
-  }
-}
-
-class _Button extends StatelessWidget {
-  const _Button();
 
   @override
   Widget build(BuildContext context) {

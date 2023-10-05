@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/models/work_mode.dart';
 import '../cubit/home_cubit.dart';
+import 'cant_change_mode_snackbar.dart';
 import 'toggle_mode_dialog.dart';
 
 class HeaderActions extends StatelessWidget {
@@ -28,10 +29,12 @@ class _ToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      onPressed: () => ToggleModeDialog.show(
-        context,
-        context.read<HomeCubit>().state.mode,
-      ),
+      onPressed: () {
+        final homeState = context.read<HomeCubit>().state;
+        homeState.status == HomeStateStatus.idle
+            ? ToggleModeDialog.show(context, homeState.mode)
+            : CantChangeModeSnackbar.show(context);
+      },
       child: BlocSelector<HomeCubit, HomeState, WorkMode>(
         selector: (state) => state.mode,
         builder: (context, mode) {
@@ -56,7 +59,7 @@ class _SettingsButton extends StatelessWidget {
     return CupertinoButton(
       onPressed: () => debugPrint('settings'),
       child: Icon(
-        Icons.settings_input_component_rounded,
+        Icons.settings_rounded,
         color: Colors.grey.shade900,
       ),
     );
