@@ -44,10 +44,12 @@ class _ToggleButton extends StatelessWidget {
               WorkMode.fluid => CrossFadeState.showFirst,
               WorkMode.periodic => CrossFadeState.showSecond
             },
+            firstCurve: Curves.fastEaseInToSlowEaseOut,
             firstChild: const Icon(
               Icons.timer_rounded,
               color: Colors.black,
             ),
+            secondCurve: Curves.fastEaseInToSlowEaseOut,
             secondChild: const Icon(
               Icons.hourglass_top_rounded,
               color: Colors.black,
