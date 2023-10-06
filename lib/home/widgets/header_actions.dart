@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:utility/utility.dart';
 
 import '../../common/models/work_mode.dart';
 import '../cubit/home_cubit.dart';
@@ -38,12 +39,20 @@ class _ToggleButton extends StatelessWidget {
       child: BlocSelector<HomeCubit, HomeState, WorkMode>(
         selector: (state) => state.mode,
         builder: (context, mode) {
-          return Icon(
-            switch (mode) {
-              WorkMode.fluid => Icons.timer_rounded,
-              WorkMode.periodic => Icons.hourglass_top_rounded
+          return AnimatedCrossFade(
+            crossFadeState: switch (mode) {
+              WorkMode.fluid => CrossFadeState.showFirst,
+              WorkMode.periodic => CrossFadeState.showSecond
             },
-            color: Colors.black,
+            firstChild: const Icon(
+              Icons.timer_rounded,
+              color: Colors.black,
+            ),
+            secondChild: const Icon(
+              Icons.hourglass_top_rounded,
+              color: Colors.black,
+            ),
+            duration: 500.ms,
           );
         },
       ),
