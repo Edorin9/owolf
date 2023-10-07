@@ -32,9 +32,9 @@ class ToggleModeDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const _Title(),
-            gapH12,
+            vSpace12,
             _Message(mode: mode),
-            gapH16,
+            vSpace16,
             _Actions(invokerContext)
           ],
         ),

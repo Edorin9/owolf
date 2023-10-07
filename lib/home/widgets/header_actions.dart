@@ -43,7 +43,7 @@ class _ToggleButton extends StatelessWidget {
             duration: const Duration(milliseconds: 150),
             switchInCurve: Curves.easeIn,
             switchOutCurve: Curves.easeOut,
-            transitionBuilder: (Widget child, Animation<double> animation) =>
+            transitionBuilder: (child, animation) =>
                 ScaleTransition(scale: animation, child: child),
             child: Icon(
               switch (mode) {

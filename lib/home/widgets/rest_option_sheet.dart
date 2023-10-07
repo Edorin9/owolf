@@ -36,7 +36,7 @@ class RestOptionSheet extends StatelessWidget {
               mode == WorkMode.fluid
                   ? const _FluidMessage()
                   : const _PeriodicMessage(),
-              gapH4,
+              vSpace4,
               const _OptionsRow(),
             ],
           ),

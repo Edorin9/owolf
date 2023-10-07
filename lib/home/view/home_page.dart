@@ -82,7 +82,7 @@ class _HomeView extends StatelessWidget {
             child: Column(
               children: [
                 HeaderActions(),
-                gapH16,
+                vSpace16,
                 StatusTexts(),
                 Timer(),
               ],

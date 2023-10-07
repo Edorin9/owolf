@@ -24,7 +24,7 @@ class Timer extends StatelessWidget {
           // ),
           // timer display
           const _TimeDisplay(),
-          gapH8,
+          vSpace8,
           const _ControlButton(),
           SizedBox(
             // TODO(Edorin9): future - remove
@@ -61,15 +61,13 @@ class _ControlButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      buildWhen: (previous, next) => previous.status != next.status,
-      builder: (context, state) => CupertinoButton(
-        onPressed: () async => _handleTimerControl(context),
-        minSize: 0,
-        child: Icon(
-          state.status == HomeStateStatus.running
-              ? Icons.stop_circle_rounded
-              : Icons.play_circle_rounded,
+    return CupertinoButton(
+      onPressed: () async => _onPressed(context),
+      minSize: 0,
+      child: BlocSelector<HomeCubit, HomeState, bool>(
+        selector: (state) => state.status == HomeStateStatus.running,
+        builder: (context, isRunning) => Icon(
+          isRunning ? Icons.stop_circle_rounded : Icons.play_circle_rounded,
           color: Colors.grey.shade900,
           size: 56,
         ),
@@ -77,7 +75,7 @@ class _ControlButton extends StatelessWidget {
     );
   }
 
-  void _handleTimerControl(BuildContext context) async {
+  void _onPressed(BuildContext context) async {
     final homeCubit = context.read<HomeCubit>();
     if (homeCubit.state.status == HomeStateStatus.idle) {
       // start timer

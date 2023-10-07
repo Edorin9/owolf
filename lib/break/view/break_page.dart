@@ -65,7 +65,7 @@ class _BreakView extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                gapH24,
+                vSpace24,
                 DisplayImage(),
                 TimerFace(),
                 ResumeButton(),
