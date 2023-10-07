@@ -23,39 +23,56 @@ class Timer extends StatelessWidget {
           //   height: MediaQuery.of(context).size.height / 7,
           // ),
           // timer display
-          BlocSelector<HomeCubit, HomeState, Duration>(
-            selector: (state) => state.time,
-            builder: (context, startTime) {
-              return Text(
-                startTime.timerFormat,
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      fontSize: 81,
-                      color: Colors.grey.shade900,
-                    ),
-              );
-            },
-          ),
+          const _TimeDisplay(),
           gapH8,
-          // play/stop button
-          BlocBuilder<HomeCubit, HomeState>(
-            buildWhen: (previous, next) => previous.status != next.status,
-            builder: (context, state) => CupertinoButton(
-              onPressed: () => _handleTimerControl(context),
-              minSize: 0,
-              child: Icon(
-                state.status == HomeStateStatus.running
-                    ? Icons.stop_circle_rounded
-                    : Icons.play_circle_rounded,
-                color: Colors.grey.shade900,
-                size: 56,
-              ),
-            ),
-          ),
+          const _ControlButton(),
           SizedBox(
             // TODO(Edorin9): future - remove
             height: MediaQuery.of(context).size.height / 9,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _TimeDisplay extends StatelessWidget {
+  const _TimeDisplay();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<HomeCubit, HomeState, Duration>(
+      selector: (state) => state.time,
+      builder: (context, startTime) {
+        return Text(
+          startTime.timerFormat,
+          style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                fontSize: 81,
+                color: Colors.grey.shade900,
+              ),
+        );
+      },
+    );
+  }
+}
+
+class _ControlButton extends StatelessWidget {
+  const _ControlButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, next) => previous.status != next.status,
+      builder: (context, state) => CupertinoButton(
+        onPressed: () async => _handleTimerControl(context),
+        minSize: 0,
+        child: Icon(
+          state.status == HomeStateStatus.running
+              ? Icons.stop_circle_rounded
+              : Icons.play_circle_rounded,
+          color: Colors.grey.shade900,
+          size: 56,
+        ),
       ),
     );
   }
