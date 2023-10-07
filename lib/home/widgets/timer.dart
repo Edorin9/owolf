@@ -40,9 +40,7 @@ class Timer extends StatelessWidget {
           BlocBuilder<HomeCubit, HomeState>(
             buildWhen: (previous, next) => previous.status != next.status,
             builder: (context, state) => CupertinoButton(
-              onPressed: () {
-                _handleTimerControl(context);
-              },
+              onPressed: () => _handleTimerControl(context),
               minSize: 0,
               child: Icon(
                 state.status == HomeStateStatus.running
