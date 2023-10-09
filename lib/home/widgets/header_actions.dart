@@ -35,6 +35,7 @@ class _ToggleButton extends StatelessWidget {
             ? ToggleModeDialog.show(context, homeState.mode)
             : CantChangeModeSnackbar.show(context);
       },
+      pressedOpacity: 0.7,
       child: BlocSelector<HomeCubit, HomeState, WorkMode>(
         selector: (state) => state.mode,
         builder: (context, mode) {
@@ -66,6 +67,7 @@ class _SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () => debugPrint('settings'),
+      pressedOpacity: 0.7,
       child: const Icon(
         Icons.settings_input_component_rounded,
         color: Colors.black,

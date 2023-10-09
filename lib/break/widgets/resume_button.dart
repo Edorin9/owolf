@@ -19,6 +19,7 @@ class ResumeButton extends StatelessWidget {
         selector: (state) => state.status == BreakStateStatus.completed,
         builder: (context, isCompleted) => CupertinoButton(
           color: isCompleted ? Colors.white : Colors.black,
+          pressedOpacity: 0.7,
           disabledColor: Colors.grey.shade200,
           onPressed: () async {
             FlutterRingtonePlayer.stop();

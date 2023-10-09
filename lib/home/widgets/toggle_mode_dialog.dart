@@ -113,6 +113,7 @@ class _NoButton extends StatelessWidget {
         vertical: Sizes.p12,
       ),
       color: Colors.transparent,
+      pressedOpacity: 0.7,
       onPressed: () => context.pop(false),
       child: const Text(
         'No',
@@ -139,6 +140,7 @@ class _YesButton extends StatelessWidget {
         vertical: Sizes.p12,
       ),
       color: Colors.black,
+      pressedOpacity: 0.7,
       onPressed: () {
         invokerContext.read<HomeCubit>().toggleMode();
         context.pop();

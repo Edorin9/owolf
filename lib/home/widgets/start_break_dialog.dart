@@ -95,8 +95,9 @@ class _StartBreakButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      color: Colors.black,
       onPressed: () => context.pop(true),
+      pressedOpacity: 0.7,
+      color: Colors.black,
       child: const Text(
         'Start break',
         style: TextStyle(
@@ -115,6 +116,7 @@ class _ContinueButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () => context.pop(false),
+      pressedOpacity: 0.7,
       child: const Text(
         'Continue working',
         style: TextStyle(
