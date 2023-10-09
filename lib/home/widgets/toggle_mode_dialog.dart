@@ -35,7 +35,7 @@ class ToggleModeDialog extends StatelessWidget {
             vSpace12,
             _Message(mode: mode),
             vSpace16,
-            _Actions(invokerContext)
+            _Buttons(invokerContext)
           ],
         ),
       ),
@@ -84,8 +84,8 @@ class _Message extends StatelessWidget {
   }
 }
 
-class _Actions extends StatelessWidget {
-  const _Actions(this.invokerContext);
+class _Buttons extends StatelessWidget {
+  const _Buttons(this.invokerContext);
 
   final BuildContext invokerContext;
 
