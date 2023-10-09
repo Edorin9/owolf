@@ -70,7 +70,7 @@ class _ControlButton extends StatelessWidget {
         builder: (context, isRunning) => Icon(
           isRunning ? Icons.stop_circle_rounded : Icons.play_circle_rounded,
           color: Colors.grey.shade900,
-          size: 56,
+          size: Sizes.p64,
         ),
       ),
     );
