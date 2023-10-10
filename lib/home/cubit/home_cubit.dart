@@ -22,6 +22,7 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription<String>? _modeSubscription;
 
   double _minutesInPeriod = 25;
+  double breakLengthPerPeriod = 5;
 
   @override
   Future<void> close() async {
@@ -34,6 +35,7 @@ class HomeCubit extends Cubit<HomeState> {
     final mode =
         _settingsRepository.getTimerMode()?.toWorkMode() ?? WorkMode.periodic;
     _minutesInPeriod = _settingsRepository.getPeriodLength() ?? 25;
+    breakLengthPerPeriod = _settingsRepository.getPeriodicBreakLength() ?? 5;
     debugPrint(
         'initState() => mode: $mode, minutesInPeriod: $_minutesInPeriod');
     emit(

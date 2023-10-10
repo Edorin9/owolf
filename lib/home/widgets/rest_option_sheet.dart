@@ -106,7 +106,9 @@ class _NonZeroPeriodMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, Duration>(
-      selector: (state) => state.getBreakDuration(),
+      selector: (state) => state.getBreakDuration(
+        breakLengthPerPeriod: context.read<HomeCubit>().breakLengthPerPeriod,
+      ),
       builder: (context, breakDuration) {
         return RichText(
           textAlign: TextAlign.center,

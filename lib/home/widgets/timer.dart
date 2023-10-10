@@ -106,7 +106,9 @@ class _ControlButton extends StatelessWidget {
                 await context.pushNamed(
                   BreakPage.routeName,
                   extra: BreakPageArgs(
-                    duration: homeCubit.state.getBreakDuration(),
+                    duration: homeCubit.state.getBreakDuration(
+                      breakLengthPerPeriod: homeCubit.breakLengthPerPeriod,
+                    ),
                     referenceMode: WorkMode.periodic,
                   ),
                 );
