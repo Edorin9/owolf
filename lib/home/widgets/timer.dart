@@ -63,7 +63,7 @@ class _ControlButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () async => _onPressed(context),
-      pressedOpacity: 0.7,
+      pressedOpacity: 0.5,
       minSize: 0,
       child: BlocSelector<HomeCubit, HomeState, bool>(
         selector: (state) => state.status == HomeStateStatus.running,

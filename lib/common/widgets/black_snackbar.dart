@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CantChangeModeSnackbar {
-  static void show(BuildContext invokerContext) {
+class BlackSnackbar {
+  static void show(BuildContext invokerContext, {required String text}) {
     ScaffoldMessenger.of(invokerContext)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        const SnackBar(
+        SnackBar(
           backgroundColor: Colors.black,
           content: Text(
-            "You can't change modes while the timer is running.",
-            style: TextStyle(fontSize: 16),
+            text,
+            style: const TextStyle(fontSize: 16, height: 1.5),
           ),
         ),
       );

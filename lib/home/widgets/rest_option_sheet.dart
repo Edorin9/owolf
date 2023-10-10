@@ -195,7 +195,7 @@ class _TakeBreakButton extends StatelessWidget {
     return CupertinoButton(
       // stop normal timer - start break countdown timer
       onPressed: () => context.pop(RestOption.takeBreak),
-      pressedOpacity: 0.7,
+      pressedOpacity: 0.5,
       child: Icon(
         RestOption.takeBreak.icon,
         color: Colors.grey.shade900,
@@ -229,7 +229,7 @@ class _EndSessionButton extends StatelessWidget {
     return CupertinoButton(
       // stop normal timer
       onPressed: () => context.pop(RestOption.endSession),
-      pressedOpacity: 0.7,
+      pressedOpacity: 0.5,
       child: Icon(
         RestOption.endSession.icon,
         color: Colors.grey.shade900,

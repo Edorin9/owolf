@@ -68,7 +68,7 @@ class _Message extends StatelessWidget {
     return Text.rich(
       TextSpan(
         style: const TextStyle(
-          fontSize: 16,
+          fontSize: 18,
           height: 1.5,
         ),
         children: [
@@ -92,7 +92,7 @@ class _Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         const _NoButton(),
         _YesButton(invokerContext),
@@ -107,14 +107,14 @@ class _NoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
+      onPressed: () => context.pop(false),
       minSize: 0,
       padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.p48,
-        vertical: Sizes.p12,
+        horizontal: 40,
+        vertical: 12,
       ),
       color: Colors.transparent,
-      pressedOpacity: 0.7,
-      onPressed: () => context.pop(false),
+      pressedOpacity: 0.5,
       child: const Text(
         'No',
         style: TextStyle(
@@ -134,17 +134,17 @@ class _YesButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      minSize: 0,
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.p48,
-        vertical: Sizes.p12,
-      ),
-      color: Colors.black,
-      pressedOpacity: 0.7,
       onPressed: () {
         invokerContext.read<HomeCubit>().toggleMode();
         context.pop();
       },
+      minSize: 0,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 40,
+        vertical: 12,
+      ),
+      color: Colors.black,
+      pressedOpacity: 0.5,
       child: const Text(
         'Yes',
         style: TextStyle(

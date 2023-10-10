@@ -34,3 +34,8 @@ enum WorkMode {
     }
   }
 }
+
+extension WorkModeExt on String {
+  WorkMode toWorkMode() =>
+      WorkMode.values.firstWhere((mode) => mode.name == this);
+}
