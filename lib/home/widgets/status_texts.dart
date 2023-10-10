@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:utility/constants.dart';
 
 import '../../common/models/work_mode.dart';
 import '../cubit/home_cubit.dart';
@@ -9,10 +10,33 @@ class StatusTexts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<HomeCubit, HomeState, bool>(
-      selector: (state) => state.mode == WorkMode.periodic,
-      builder: (context, isPeriodic) =>
-          isPeriodic ? const _PeriodStatus() : const SizedBox(),
+    return SizedBox(
+      height: Sizes.p24,
+      child: BlocSelector<HomeCubit, HomeState, bool>(
+        selector: (state) => state.mode == WorkMode.periodic,
+        builder: (context, isPeriodic) => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 150),
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+          transitionBuilder: (child, animation) => FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, -0.5),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            ),
+          ),
+          child: isPeriodic ? const _PeriodStatus() : const SizedBox.shrink(),
+        ),
+        // AnimatedOpacity(
+        //   duration: const Duration(milliseconds: 150),
+        //   curve: Curves.slowMiddle,
+        //   opacity: isPeriodic ? 1 : 0,
+        //   child: const _PeriodStatus(),
+        // ),
+      ),
     );
   }
 }

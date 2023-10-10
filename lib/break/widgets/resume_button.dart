@@ -18,18 +18,18 @@ class ResumeButton extends StatelessWidget {
       child: BlocSelector<BreakCubit, BreakState, bool>(
         selector: (state) => state.status == BreakStateStatus.completed,
         builder: (context, isCompleted) => CupertinoButton(
-          color: isCompleted ? Colors.white : Colors.black,
-          pressedOpacity: 0.7,
-          disabledColor: Colors.grey.shade200,
           onPressed: () async {
             FlutterRingtonePlayer.stop();
             if (context.mounted) context.pop();
           },
+          color: isCompleted ? Colors.white : Colors.black,
+          pressedOpacity: 0.5,
+          disabledColor: Colors.grey.shade200,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               _Label(isCompleted),
-              gapW4,
+              hSpace4,
               _TrailingIcon(isCompleted),
             ],
           ),

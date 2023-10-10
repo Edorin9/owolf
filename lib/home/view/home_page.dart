@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:go_router/go_router.dart';
+import 'package:settings_repository/settings_repository.dart';
 import 'package:utility/constants.dart';
 
 import '../../break/view/break_page.dart';
@@ -24,7 +25,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..initState(),
+      create: (context) => HomeCubit(
+        settingsRepository: context.read<SettingsRepository>(),
+      )..initState(),
       child: BlocListener<HomeCubit, HomeState>(
         listenWhen: (previous, current) =>
             previous.status != current.status &&
@@ -81,7 +84,7 @@ class _HomeView extends StatelessWidget {
           SafeArea(
             child: Column(
               children: [
-                HeaderActions(),
+                Header(),
                 vSpace16,
                 StatusTexts(),
                 Timer(),

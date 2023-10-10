@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
+import 'package:settings_repository/settings_repository.dart';
 import 'package:utility/utility.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,40 +11,45 @@ import '../../common/models/work_mode.dart';
 part 'home_cubit.mapper.dart';
 part 'home_state.dart';
 
-const minutesInPeriod = 0.1;
-
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(const HomeState());
+  HomeCubit({
+    required SettingsRepository settingsRepository,
+  })  : _settingsRepository = settingsRepository,
+        super(const HomeState());
 
+  final SettingsRepository _settingsRepository;
   StreamSubscription<int>? _tickSubscription;
+  StreamSubscription<String>? _modeSubscription;
+
+  double _minutesInPeriod = 25;
 
   @override
   Future<void> close() async {
     await _tickSubscription?.cancel();
+    await _modeSubscription?.cancel();
     return super.close();
   }
 
   void initState() {
-    const mode = WorkMode.periodic;
+    final mode =
+        _settingsRepository.getTimerMode()?.toWorkMode() ?? WorkMode.periodic;
+    _minutesInPeriod = _settingsRepository.getPeriodLength() ?? 25;
+    debugPrint(
+        'initState() => mode: $mode, minutesInPeriod: $_minutesInPeriod');
     emit(
       state.copyWith(
         status: HomeStateStatus.idle,
         mode: mode,
-        time: mode.getStartTime(minutesInPeriod: minutesInPeriod),
+        time: mode.getStartTime(minutesInPeriod: _minutesInPeriod),
         period: 0,
       ),
     );
+    _subscribeToModeChange();
   }
 
   void toggleMode() {
     final newMode = state.mode.opposite;
-    emit(
-      state.copyWith(
-        mode: newMode,
-        time: newMode.getStartTime(minutesInPeriod: minutesInPeriod),
-        period: 0,
-      ),
-    );
+    _settingsRepository.setTimerMode(newMode.name);
   }
 
   Future<void> startTimer() async {
@@ -56,7 +63,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(
       state.copyWith(
         status: HomeStateStatus.idle,
-        time: state.mode.getStartTime(minutesInPeriod: minutesInPeriod),
+        time: state.mode.getStartTime(minutesInPeriod: _minutesInPeriod),
         period: 0,
       ),
     );
@@ -66,14 +73,30 @@ class HomeCubit extends Cubit<HomeState> {
   ///
   /// Utilize this in place of [resetTimer] if you want to stop the ticker
   /// from triggering further state updates.
-  /// 
+  ///
   Future<void> stopTicks() async => await _tickSubscription?.cancel();
+
+  void _subscribeToModeChange() {
+    _modeSubscription = _settingsRepository.timerMode.listen(
+      (timerMode) {
+        debugPrint('_subscribeToModeChange => $timerMode');
+        final newMode = timerMode.toWorkMode();
+        emit(
+          state.copyWith(
+            mode: newMode,
+            time: newMode.getStartTime(minutesInPeriod: _minutesInPeriod),
+            period: 0,
+          ),
+        );
+      },
+    );
+  }
 
   void _startTicks() {
     _tickSubscription = switch (state.mode) {
       WorkMode.fluid => countUp().listen(_handleCountUpTick),
       WorkMode.periodic =>
-        countdown(minutesInPeriod.minutes).listen(_handleCountdownTick)
+        countdown(_minutesInPeriod.minutes).listen(_handleCountdownTick)
     };
   }
 

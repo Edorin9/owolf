@@ -14,7 +14,7 @@ class Sizes {
 }
 
 // Constant gap widths
-const gapW4 = SizedBox(width: Sizes.p4);
+const hSpace4 = SizedBox(width: Sizes.p4);
 const hSpace8 = SizedBox(width: Sizes.p8);
 const hSpace12 = SizedBox(width: Sizes.p12);
 const hSpace16 = SizedBox(width: Sizes.p16);

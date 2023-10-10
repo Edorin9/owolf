@@ -1,6 +1,5 @@
-export 'cant_change_mode_snackbar.dart';
 export 'exit_app_confirm_dialog.dart';
-export 'header_actions.dart';
+export 'header.dart';
 export 'status_texts.dart';
 export 'proxy_task_field.dart';
 export 'rest_option_sheet.dart';

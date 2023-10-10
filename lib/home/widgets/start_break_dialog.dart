@@ -70,7 +70,7 @@ class _Message extends StatelessWidget {
       builder: (context, breakDuration) {
         return Text.rich(
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 18,
             height: 1.5,
           ),
           TextSpan(
@@ -96,7 +96,11 @@ class _StartBreakButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () => context.pop(true),
-      pressedOpacity: 0.7,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 40,
+        vertical: 12,
+      ),
+      pressedOpacity: 0.5,
       color: Colors.black,
       child: const Text(
         'Start break',
@@ -116,7 +120,11 @@ class _ContinueButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () => context.pop(false),
-      pressedOpacity: 0.7,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 40,
+        vertical: 12,
+      ),
+      pressedOpacity: 0.5,
       child: const Text(
         'Continue working',
         style: TextStyle(

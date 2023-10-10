@@ -63,14 +63,14 @@ class _ControlButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () async => _onPressed(context),
-      pressedOpacity: 0.7,
+      pressedOpacity: 0.5,
       minSize: 0,
       child: BlocSelector<HomeCubit, HomeState, bool>(
         selector: (state) => state.status == HomeStateStatus.running,
         builder: (context, isRunning) => Icon(
           isRunning ? Icons.stop_circle_rounded : Icons.play_circle_rounded,
           color: Colors.grey.shade900,
-          size: 56,
+          size: Sizes.p64,
         ),
       ),
     );
