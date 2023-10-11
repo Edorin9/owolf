@@ -6,10 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:settings_repository/settings_repository.dart';
 import 'package:utility/extensions.dart';
 
-import '../../common/models/work_mode.dart';
+import '../../common/models/models.dart';
 import '../../common/widgets/black_snackbar.dart';
 import '../cubit/cubit.dart';
-import '../models/preference_value_type.dart';
 import '../widgets/widgets.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -224,7 +223,7 @@ class _FluidState extends State<_Fluid> {
                         (PreferenceValueType value) {
                   return DropdownMenuItem<PreferenceValueType>(
                     value: value,
-                    child: Text(value.nameText),
+                    child: Text(value.displayText),
                   );
                 }).toList(),
               ),
@@ -360,16 +359,20 @@ class _PeriodicState extends State<_Periodic> {
           builder: (context, breakLengthPerPeriod) {
             return Slider.adaptive(
               value: breakLengthPerPeriod,
-              min: 1,
+              min: 0,
               max: 60,
-              divisions: 59,
+              divisions: 60,
               thumbColor: Colors.black,
               activeColor: Colors.black,
               inactiveColor: Colors.grey.shade300,
               label: breakLengthPerPeriod.toInt().toString(),
-              onChanged: (breakLength) => context
-                  .read<SettingsCubit>()
-                  .savePeriodBreakLength(breakLength),
+              onChanged: (breakLength) {
+                if (breakLength != 0) {
+                  context
+                      .read<SettingsCubit>()
+                      .savePeriodBreakLength(breakLength);
+                }
+              },
             );
           },
         )

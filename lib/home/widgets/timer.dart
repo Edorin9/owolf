@@ -6,6 +6,7 @@ import 'package:utility/utility.dart';
 
 import '../../break/view/break_page.dart';
 import '../../common/models/models.dart';
+import '../../common/widgets/black_snackbar.dart';
 import '../cubit/home_cubit.dart';
 import 'rest_option_sheet.dart';
 
@@ -89,12 +90,14 @@ class _ControlButton extends StatelessWidget {
         case RestOption.takeBreak:
           switch (homeCubit.state.mode) {
             case WorkMode.fluid:
-              homeCubit.resetTimer();
               if (context.mounted) {
+                homeCubit.resetTimer();
                 await context.pushNamed(
                   BreakPage.routeName,
                   extra: BreakPageArgs(
-                    duration: homeCubit.state.getBreakDuration(),
+                    duration: homeCubit.state.getBreakDuration(
+                      fluidBreakLength: homeCubit.fluidBreakLength,
+                    ),
                     referenceMode: WorkMode.fluid,
                   ),
                 );

@@ -11,14 +11,9 @@ class SettingsRepository {
 
   final _timerModeController = BehaviorSubject<String>();
   final _fluidBreakLengthController =
-      BehaviorSubject<({String type, double? value})>.seeded(
-    (
-      type: 'defaultValue',
-      value: null,
-    ),
-  );
-  final _periodLengthController = BehaviorSubject<double>.seeded(25);
-  final _periodicBreakLengthController = BehaviorSubject<double>.seeded(5);
+      BehaviorSubject<({String type, double? value})>();
+  final _periodLengthController = BehaviorSubject<double>();
+  final _periodicBreakLengthController = BehaviorSubject<double>();
 
   /// Active timer mode
   ///

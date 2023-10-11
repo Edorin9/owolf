@@ -4,8 +4,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:settings_repository/settings_repository.dart';
 
-import '../../common/models/work_mode.dart';
-import '../models/preference_value_type.dart';
+import '../../common/models/models.dart';
 
 part 'settings_cubit.mapper.dart';
 part 'settings_state.dart';
@@ -99,7 +98,3 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 }
 
-extension on String {
-  PreferenceValueType toPreferenceValueType() =>
-      PreferenceValueType.values.firstWhere((type) => type.name == this);
-}

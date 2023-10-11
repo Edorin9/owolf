@@ -24,23 +24,7 @@ class App extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        theme: ThemeData(
-          primarySwatch: MaterialColor(
-            Colors.black.value,
-            <int, Color>{
-              50: Colors.black.withAlpha(5),
-              100: Colors.black.withAlpha(25),
-              200: Colors.black.withAlpha(50),
-              300: Colors.black.withAlpha(75),
-              400: Colors.black.withAlpha(100),
-              500: Colors.black.withAlpha(125),
-              600: Colors.black.withAlpha(150),
-              700: Colors.black.withAlpha(200),
-              800: Colors.black.withAlpha(225),
-              900: Colors.black.withAlpha(255),
-            },
-          ),
-        ),
+        theme: ThemeData(primarySwatch: _blackMaterialColor),
         debugShowCheckedModeBanner: false,
         routerConfig: GoRouter(
           routes: [
@@ -53,3 +37,20 @@ class App extends StatelessWidget {
     );
   }
 }
+
+const _blackColor = Color(0xff000000);
+const _blackMaterialColor = MaterialColor(
+  0xff000000,
+  <int, Color>{
+    50: _blackColor,
+    100: _blackColor,
+    200: _blackColor,
+    300: _blackColor,
+    400: _blackColor,
+    500: _blackColor,
+    600: _blackColor,
+    700: _blackColor,
+    800: _blackColor,
+    900: _blackColor,
+  },
+);

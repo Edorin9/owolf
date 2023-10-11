@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:utility/constants.dart';
+import 'package:utility/utility.dart';
 
 import '../../common/models/models.dart';
 import '../cubit/home_cubit.dart';
@@ -51,32 +51,92 @@ class _FluidMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<HomeCubit, HomeState, int>(
-      selector: (state) => state.getBreakDuration().inMinutes,
-      builder: (context, breakDuration) => RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                color: Colors.grey.shade900,
-                fontSize: 18,
-                height: 1.5,
-                fontWeight: FontWeight.w300,
-              ),
-          children: [
-            const TextSpan(text: 'Do you want to take a '),
-            // ignore: lines_longer_than_80_chars
-            TextSpan(
-              text:
-                  'break for $breakDuration minute${breakDuration > 1 ? 's' : ''} ',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const TextSpan(text: 'or '),
-            const TextSpan(
-              text: 'end this session?',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
+    return Column(
+      children: [
+        BlocSelector<HomeCubit, HomeState, bool>(
+          selector: (state) {
+            final fluidBreakLength = context.read<HomeCubit>().fluidBreakLength;
+            final breakDuration =
+                state.getBreakDuration(fluidBreakLength: fluidBreakLength);
+            return breakDuration >= 1.seconds;
+          },
+          builder: (context, canTakeBreak) => canTakeBreak
+              ? const _TimeSufficientFluidMessage()
+              : const _TimeDeficientFluidMessage(),
         ),
+      ],
+    );
+  }
+}
+
+class _TimeSufficientFluidMessage extends StatelessWidget {
+  const _TimeSufficientFluidMessage();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<HomeCubit, HomeState, Duration>(
+      selector: (state) => state.getBreakDuration(
+        fluidBreakLength: context.read<HomeCubit>().fluidBreakLength,
+      ),
+      builder: (context, breakDuration) {
+        return RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                  color: Colors.grey.shade900,
+                  fontSize: 18,
+                  height: 1.5,
+                  fontWeight: FontWeight.w300,
+                ),
+            children: [
+              const TextSpan(text: 'Start '),
+              TextSpan(
+                text:
+                    '${breakDuration < 1.minutes ? '${breakDuration.inSeconds}-second ' : '${breakDuration.inMinutes}-minute '}break ',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(text: 'or '),
+              const TextSpan(
+                text: 'end session\n',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(
+                text:
+                    'Note: Both options will drop the current period’s timer.',
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _TimeDeficientFluidMessage extends StatelessWidget {
+  const _TimeDeficientFluidMessage();
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              color: Colors.grey.shade900,
+              fontSize: 18,
+              height: 1.5,
+              fontWeight: FontWeight.w300,
+            ),
+        children: const [
+          TextSpan(
+            text: 'End session\n',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: 'Note: This will drop the current period’s timer.',
+            style: TextStyle(fontSize: 14),
+          ),
+        ],
       ),
     );
   }
@@ -120,16 +180,20 @@ class _NonZeroPeriodMessage extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                 ),
             children: [
-              const TextSpan(text: 'Do you want to start a '),
+              const TextSpan(text: 'Start '),
               TextSpan(
-                text: '${breakDuration.inMinutes}-minute ',
+                text: '${breakDuration.inMinutes}-minute break ',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
+              const TextSpan(text: 'or '),
               const TextSpan(
-                  text: 'break and drop current period’s progress or '),
-              const TextSpan(
-                text: 'end whole session?',
+                text: 'end session\n',
                 style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(
+                text:
+                    'Note: Both options will drop the current period’s timer.',
+                style: TextStyle(fontSize: 14),
               ),
             ],
           ),
@@ -155,13 +219,13 @@ class _ZeroPeriodMessage extends StatelessWidget {
             ),
         children: const [
           TextSpan(
-            text: 'Do you want to drop current period’s progress and ',
-          ),
-          TextSpan(
-            text: 'end session',
+            text: 'End session\n',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextSpan(text: '?'),
+          TextSpan(
+            text: 'Note: This will drop the current period’s timer.',
+            style: TextStyle(fontSize: 14),
+          ),
         ],
       ),
     );
@@ -174,13 +238,24 @@ class _OptionsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, bool>(
-      selector: (state) => state.mode == WorkMode.fluid || state.period >= 1,
-      builder: (context, isFluidOrHasPeriod) {
+      selector: (state) {
+        final fluidBreakLength = context.read<HomeCubit>().fluidBreakLength;
+        final breakDuration =
+            state.getBreakDuration(fluidBreakLength: fluidBreakLength);
+        final isTimeSufficient = breakDuration >= 1.seconds;
+        final hasPeriod = state.period >= 1;
+        return isTimeSufficient || hasPeriod;
+      },
+      builder: (context, isTimeSufficientOrHasPeriod) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            isFluidOrHasPeriod ? const _TakeBreakButton() : const SizedBox(),
-            isFluidOrHasPeriod ? const _OrText() : const SizedBox(),
+            isTimeSufficientOrHasPeriod
+                ? const _TakeBreakButton()
+                : const SizedBox.shrink(),
+            isTimeSufficientOrHasPeriod
+                ? const _OrText()
+                : const SizedBox.shrink(),
             const _EndSessionButton(),
           ],
         );

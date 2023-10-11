@@ -1,12 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:flutter/widgets.dart';
 import 'package:settings_repository/settings_repository.dart';
 import 'package:utility/utility.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/models/work_mode.dart';
+import '../../common/models/models.dart';
 
 part 'home_cubit.mapper.dart';
 part 'home_state.dart';
@@ -23,6 +23,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   double _minutesInPeriod = 25;
   double breakLengthPerPeriod = 5;
+  ({String? type, double? value}) fluidBreakLength =
+      (type: PreferenceValueType.defaultValue.name, value: null);
 
   @override
   Future<void> close() async {
@@ -36,8 +38,8 @@ class HomeCubit extends Cubit<HomeState> {
         _settingsRepository.getTimerMode()?.toWorkMode() ?? WorkMode.periodic;
     _minutesInPeriod = _settingsRepository.getPeriodLength() ?? 25;
     breakLengthPerPeriod = _settingsRepository.getPeriodicBreakLength() ?? 5;
-    debugPrint(
-        'initState() => mode: $mode, minutesInPeriod: $_minutesInPeriod');
+    fluidBreakLength = _settingsRepository.getFluidBreakLength();
+    log('initState() => mode: $mode, _minutesInPeriod: $_minutesInPeriod, breakLengthPerPeriod: $breakLengthPerPeriod, fluidBreakLength: $fluidBreakLength');
     emit(
       state.copyWith(
         status: HomeStateStatus.idle,
@@ -81,7 +83,7 @@ class HomeCubit extends Cubit<HomeState> {
   void _subscribeToModeChange() {
     _modeSubscription = _settingsRepository.timerMode.listen(
       (timerMode) {
-        debugPrint('_subscribeToModeChange => $timerMode');
+        log('_subscribeToModeChange => $timerMode');
         final newMode = timerMode.toWorkMode();
         emit(
           state.copyWith(
