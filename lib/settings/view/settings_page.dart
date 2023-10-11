@@ -123,79 +123,68 @@ class _Mode extends StatelessWidget {
                 ?.copyWith(color: Colors.black, fontSize: 13, height: 1.2),
           ),
         ),
-        ColorFiltered(
-          colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcATop),
-          child: BlocSelector<SettingsCubit, SettingsState, WorkMode>(
-            selector: (state) => state.timerMode,
-            builder: (context, mode) {
-              return RadioListTile.adaptive(
-                onChanged: null,
-                visualDensity: VisualDensity.compact,
-                groupValue: mode,
-                value: WorkMode.fluid,
-                fillColor: MaterialStateProperty.all(Colors.black),
-                title: const Text(
-                  'Fluid',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: const Text(
-                  'Flowtime',
-                  style: TextStyle(color: Colors.black54),
-                ),
-                secondary: const Icon(
-                  Icons.timer,
+        BlocSelector<SettingsCubit, SettingsState, WorkMode>(
+          selector: (state) => state.timerMode,
+          builder: (context, mode) {
+            return RadioListTile.adaptive(
+              onChanged: null,
+              visualDensity: VisualDensity.compact,
+              groupValue: mode,
+              value: WorkMode.fluid,
+              fillColor: MaterialStateProperty.all(Colors.grey),
+              title: const Text(
+                'Fluid',
+                style: TextStyle(
                   color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
-          ),
+              ),
+              subtitle: const Text(
+                'Flowtime',
+                style: TextStyle(color: Colors.black54),
+              ),
+              secondary: const Icon(
+                Icons.timer,
+                color: Colors.black,
+              ),
+            );
+          },
         ),
-        ColorFiltered(
-          colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcATop),
-          child: BlocSelector<SettingsCubit, SettingsState, WorkMode>(
-            selector: (state) => state.timerMode,
-            builder: (context, mode) {
-              return RadioListTile.adaptive(
-                onChanged: null,
-                visualDensity: VisualDensity.compact,
-                groupValue: mode,
-                value: WorkMode.periodic,
-                fillColor: MaterialStateProperty.all(Colors.black),
-                title: const Text(
-                  'Periodic',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: const Text(
-                  'Pomodoro',
-                  style: TextStyle(color: Colors.black54),
-                ),
-                secondary: const Icon(
-                  Icons.hourglass_top_rounded,
+        BlocSelector<SettingsCubit, SettingsState, WorkMode>(
+          selector: (state) => state.timerMode,
+          builder: (context, mode) {
+            return RadioListTile.adaptive(
+              onChanged: null,
+              visualDensity: VisualDensity.compact,
+              groupValue: mode,
+              value: WorkMode.periodic,
+              fillColor: MaterialStateProperty.all(Colors.grey),
+              title: const Text(
+                'Periodic',
+                style: TextStyle(
                   color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
-          ),
+              ),
+              subtitle: const Text(
+                'Pomodoro',
+                style: TextStyle(color: Colors.black54),
+              ),
+              secondary: const Icon(
+                Icons.hourglass_top_rounded,
+                color: Colors.black,
+              ),
+            );
+          },
         ),
       ],
     );
   }
 }
 
-class _Fluid extends StatefulWidget {
+class _Fluid extends StatelessWidget {
   const _Fluid();
 
-  @override
-  State<_Fluid> createState() => _FluidState();
-}
-
-class _FluidState extends State<_Fluid> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsCubit, SettingsState>(
@@ -275,14 +264,9 @@ class _FluidState extends State<_Fluid> {
   }
 }
 
-class _Periodic extends StatefulWidget {
+class _Periodic extends StatelessWidget {
   const _Periodic();
 
-  @override
-  State<_Periodic> createState() => _PeriodicState();
-}
-
-class _PeriodicState extends State<_Periodic> {
   @override
   Widget build(BuildContext context) {
     return Column(
