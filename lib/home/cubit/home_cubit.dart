@@ -81,6 +81,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> stopTicks() async => await _tickSubscription?.cancel();
 
   void _subscribeToModeChange() {
+    _modeSubscription?.cancel();
     _modeSubscription = _settingsRepository.timerMode.listen(
       (timerMode) {
         log('_subscribeToModeChange => $timerMode');

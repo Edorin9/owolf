@@ -60,9 +60,24 @@ class _FluidMessage extends StatelessWidget {
                 state.getBreakDuration(fluidBreakLength: fluidBreakLength);
             return breakDuration >= 1.seconds;
           },
-          builder: (context, canTakeBreak) => canTakeBreak
-              ? const _TimeSufficientFluidMessage()
-              : const _TimeDeficientFluidMessage(),
+          builder: (context, canTakeBreak) => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 250),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.25),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: canTakeBreak
+                ? const _TimeSufficientFluidMessage()
+                : const _TimeDeficientFluidMessage(),
+          ),
         ),
       ],
     );
@@ -151,9 +166,24 @@ class _PeriodicMessage extends StatelessWidget {
       children: [
         BlocSelector<HomeCubit, HomeState, bool>(
           selector: (state) => state.period > 0,
-          builder: (context, hasPeriod) => hasPeriod
-              ? const _NonZeroPeriodMessage()
-              : const _ZeroPeriodMessage(),
+          builder: (context, hasPeriod) => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 250),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.25),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: hasPeriod
+                ? const _NonZeroPeriodMessage()
+                : const _ZeroPeriodMessage(),
+          ),
         ),
       ],
     );
@@ -247,17 +277,33 @@ class _OptionsRow extends StatelessWidget {
         return isTimeSufficient || hasPeriod;
       },
       builder: (context, isTimeSufficientOrHasPeriod) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            isTimeSufficientOrHasPeriod
-                ? const _TakeBreakButton()
-                : const SizedBox.shrink(),
-            isTimeSufficientOrHasPeriod
-                ? const _OrText()
-                : const SizedBox.shrink(),
-            const _EndSessionButton(),
-          ],
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 250),
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+          transitionBuilder: (child, animation) => FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0.025, 0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            ),
+          ),
+          child: Row(
+            key: ValueKey(isTimeSufficientOrHasPeriod),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              isTimeSufficientOrHasPeriod
+                  ? const _TakeBreakButton()
+                  : const SizedBox.shrink(),
+              isTimeSufficientOrHasPeriod
+                  ? const _OrText()
+                  : const SizedBox.shrink(),
+              const _EndSessionButton(),
+            ],
+          ),
         );
       },
     );

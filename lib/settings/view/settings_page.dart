@@ -217,46 +217,61 @@ class _Fluid extends StatelessWidget {
                 }).toList(),
               ),
             ),
-            state.fluidBreakLengthType == PreferenceValueType.defaultValue
-                ? const Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: Text(
-                      '5-min break: 25 mins of work and below\n8-min break: more than 25 mins and less than 50 mins of work\n10-min break: more than 50 mins and less than 90 mins of work\n15-min break: more than 90 mins of work',
-                      style: TextStyle(
-                        color: Colors.black54,
-                        height: 1.3,
+            AnimatedSize(
+              duration: const Duration(milliseconds: 250),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeOut,
+                transitionBuilder: (child, animation) => FadeTransition(
+                  opacity: animation,
+                  child: child,
+                ),
+                child: state.fluidBreakLengthType ==
+                        PreferenceValueType.defaultValue
+                    ? const Padding(
+                        key: ValueKey(PreferenceValueType.defaultValue),
+                        padding: EdgeInsets.only(bottom: 16),
+                        child: Text(
+                          '5 mins: 25 mins of work and below\n8 mins: more than 25 mins and less than 50 mins of work\n10 mins: more than 50 mins and less than 90 mins of work\n15 mins: more than 90 mins of work',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            height: 1.3,
+                          ),
+                        ),
+                      )
+                    : Column(
+                        key: const ValueKey(PreferenceValueType.customValue),
+                        children: [
+                          Slider.adaptive(
+                            value: state.fluidBreakLength,
+                            min: 0,
+                            max: 1,
+                            divisions: 20,
+                            thumbColor: Colors.black,
+                            activeColor: Colors.black,
+                            secondaryTrackValue: 0.5,
+                            secondaryActiveColor: Colors.grey,
+                            inactiveColor: Colors.grey.shade300,
+                            label:
+                                '${(state.fluidBreakLength * 100).toInt()} %',
+                            onChanged: (value) {
+                              if (value > 0 && value <= 0.5) {
+                                context
+                                    .read<SettingsCubit>()
+                                    .saveFluidBreakLength(value: value);
+                              }
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Text(
+                                '${(state.fluidBreakLength * 100).toInt()}% of rendered work time'),
+                          )
+                        ],
                       ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-            state.fluidBreakLengthType == PreferenceValueType.customValue
-                ? Slider.adaptive(
-                    value: state.fluidBreakLength,
-                    min: 0,
-                    max: 1,
-                    divisions: 20,
-                    thumbColor: Colors.black,
-                    activeColor: Colors.black,
-                    secondaryTrackValue: 0.5,
-                    secondaryActiveColor: Colors.grey,
-                    inactiveColor: Colors.grey.shade300,
-                    label: '${(state.fluidBreakLength * 100).toInt()} %',
-                    onChanged: (value) {
-                      if (value > 0 && value <= 0.5) {
-                        context
-                            .read<SettingsCubit>()
-                            .saveFluidBreakLength(value: value);
-                      }
-                    },
-                  )
-                : const SizedBox.shrink(),
-            state.fluidBreakLengthType == PreferenceValueType.customValue
-                ? Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(
-                        '${(state.fluidBreakLength * 100).toInt()}% of rendered work time'),
-                  )
-                : const SizedBox.shrink(),
+              ),
+            ),
           ],
         );
       },

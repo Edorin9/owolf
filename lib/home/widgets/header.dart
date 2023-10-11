@@ -49,7 +49,7 @@ class _ToggleButton extends StatelessWidget {
           return Row(
             children: [
               AnimatedSwitcher(
-                duration: const Duration(milliseconds: 150),
+                duration: const Duration(milliseconds: 250),
                 switchInCurve: Curves.easeIn,
                 switchOutCurve: Curves.easeOut,
                 transitionBuilder: (child, animation) =>
@@ -65,29 +65,32 @@ class _ToggleButton extends StatelessWidget {
               ),
               hSpace8,
               AnimatedSwitcher(
-                duration: const Duration(milliseconds: 150),
+                duration: const Duration(milliseconds: 250),
                 switchInCurve: Curves.easeIn,
                 switchOutCurve: Curves.easeOut,
                 transitionBuilder: (child, animation) => FadeTransition(
                   opacity: animation,
                   child: SlideTransition(
                     position: Tween<Offset>(
-                      begin: const Offset(0.5, 0),
+                      begin: const Offset(0.25, 0),
                       end: Offset.zero,
                     ).animate(animation),
                     child: child,
                   ),
                 ),
-                child: Text(
-                  switch (mode) {
-                    WorkMode.fluid => 'Fluid',
-                    WorkMode.periodic => 'Periodic',
-                  },
+                child: SizedBox(
                   key: ValueKey<WorkMode>(mode),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  width: 75,
+                  child: Text(
+                    switch (mode) {
+                      WorkMode.fluid => 'Fluid',
+                      WorkMode.periodic => 'Periodic',
+                    },
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
