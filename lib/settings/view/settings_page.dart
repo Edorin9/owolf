@@ -191,7 +191,7 @@ class _Fluid extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            const SectionHeader(title: 'Fluid (Flowtime)'),
+            const SectionHeader(title: 'Fluid'),
             ListTile(
               title: const Text(
                 'Break Length',
@@ -218,9 +218,9 @@ class _Fluid extends StatelessWidget {
               ),
             ),
             AnimatedSize(
-              duration: const Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 200),
               child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 200),
                 switchInCurve: Curves.easeIn,
                 switchOutCurve: Curves.easeOut,
                 transitionBuilder: (child, animation) => FadeTransition(
@@ -286,7 +286,7 @@ class _Periodic extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SectionHeader(title: 'Periodic (Pomodoro)'),
+        const SectionHeader(title: 'Periodic'),
         BlocSelector<SettingsCubit, SettingsState, double>(
           selector: (state) => state.periodLength,
           builder: (context, periodLength) {

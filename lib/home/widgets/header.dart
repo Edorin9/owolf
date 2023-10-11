@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:utility/constants.dart';
 
 import '../../common/models/work_mode.dart';
+import '../../common/widgets/black_snackbar.dart';
 import '../../settings/view/settings_page.dart';
 import '../cubit/home_cubit.dart';
-import '../../common/widgets/black_snackbar.dart';
 import 'toggle_mode_dialog.dart';
 
 class Header extends StatelessWidget {
@@ -49,11 +49,13 @@ class _ToggleButton extends StatelessWidget {
           return Row(
             children: [
               AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 200),
                 switchInCurve: Curves.easeIn,
                 switchOutCurve: Curves.easeOut,
-                transitionBuilder: (child, animation) =>
-                    ScaleTransition(scale: animation, child: child),
+                transitionBuilder: (child, animation) => FadeTransition(
+                  opacity: animation,
+                  child: ScaleTransition(scale: animation, child: child),
+                ),
                 child: Icon(
                   switch (mode) {
                     WorkMode.fluid => Icons.timer_rounded,
@@ -65,14 +67,14 @@ class _ToggleButton extends StatelessWidget {
               ),
               hSpace8,
               AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 200),
                 switchInCurve: Curves.easeIn,
                 switchOutCurve: Curves.easeOut,
                 transitionBuilder: (child, animation) => FadeTransition(
                   opacity: animation,
                   child: SlideTransition(
                     position: Tween<Offset>(
-                      begin: const Offset(0.25, 0),
+                      begin: const Offset(0.2, 0),
                       end: Offset.zero,
                     ).animate(animation),
                     child: child,

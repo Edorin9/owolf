@@ -61,14 +61,14 @@ class _FluidMessage extends StatelessWidget {
             return breakDuration >= 1.seconds;
           },
           builder: (context, canTakeBreak) => AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
+            duration: const Duration(milliseconds: 200),
             switchInCurve: Curves.easeIn,
             switchOutCurve: Curves.easeOut,
             transitionBuilder: (child, animation) => FadeTransition(
               opacity: animation,
               child: SlideTransition(
                 position: Tween<Offset>(
-                  begin: const Offset(0, 0.25),
+                  begin: const Offset(0, 0.2),
                   end: Offset.zero,
                 ).animate(animation),
                 child: child,
@@ -116,8 +116,7 @@ class _TimeSufficientFluidMessage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const TextSpan(
-                text:
-                    'Note: Both options will drop the current period’s timer.',
+                text: 'Both options will drop the current period’s timer.',
                 style: TextStyle(fontSize: 14),
               ),
             ],
@@ -148,7 +147,7 @@ class _TimeDeficientFluidMessage extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: 'Note: This will drop the current period’s timer.',
+            text: 'This will drop the current period’s timer.',
             style: TextStyle(fontSize: 14),
           ),
         ],
@@ -167,14 +166,14 @@ class _PeriodicMessage extends StatelessWidget {
         BlocSelector<HomeCubit, HomeState, bool>(
           selector: (state) => state.period > 0,
           builder: (context, hasPeriod) => AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
+            duration: const Duration(milliseconds: 200),
             switchInCurve: Curves.easeIn,
             switchOutCurve: Curves.easeOut,
             transitionBuilder: (child, animation) => FadeTransition(
               opacity: animation,
               child: SlideTransition(
                 position: Tween<Offset>(
-                  begin: const Offset(0, 0.25),
+                  begin: const Offset(0, 0.2),
                   end: Offset.zero,
                 ).animate(animation),
                 child: child,
@@ -221,8 +220,7 @@ class _NonZeroPeriodMessage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const TextSpan(
-                text:
-                    'Note: Both options will drop the current period’s timer.',
+                text: 'Both options will drop the current period’s timer.',
                 style: TextStyle(fontSize: 14),
               ),
             ],
@@ -253,7 +251,7 @@ class _ZeroPeriodMessage extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: 'Note: This will drop the current period’s timer.',
+            text: 'This will drop the current period’s timer.',
             style: TextStyle(fontSize: 14),
           ),
         ],
@@ -278,14 +276,14 @@ class _OptionsRow extends StatelessWidget {
       },
       builder: (context, isTimeSufficientOrHasPeriod) {
         return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 200),
           switchInCurve: Curves.easeIn,
           switchOutCurve: Curves.easeOut,
           transitionBuilder: (child, animation) => FadeTransition(
             opacity: animation,
             child: SlideTransition(
               position: Tween<Offset>(
-                begin: const Offset(0.025, 0),
+                begin: const Offset(0.02, 0),
                 end: Offset.zero,
               ).animate(animation),
               child: child,

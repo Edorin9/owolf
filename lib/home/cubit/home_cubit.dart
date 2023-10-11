@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:settings_repository/settings_repository.dart';
-import 'package:utility/utility.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:settings_repository/settings_repository.dart';
+import 'package:utility/utility.dart';
 
 import '../../common/models/models.dart';
 

@@ -15,14 +15,14 @@ class StatusTexts extends StatelessWidget {
       child: BlocSelector<HomeCubit, HomeState, bool>(
         selector: (state) => state.mode == WorkMode.periodic,
         builder: (context, isPeriodic) => AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 200),
           switchInCurve: Curves.easeIn,
           switchOutCurve: Curves.easeOut,
           transitionBuilder: (child, animation) => FadeTransition(
             opacity: animation,
             child: SlideTransition(
               position: Tween<Offset>(
-                begin: const Offset(0, -0.25),
+                begin: const Offset(0, -0.2),
                 end: Offset.zero,
               ).animate(animation),
               child: child,

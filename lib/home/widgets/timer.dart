@@ -6,7 +6,6 @@ import 'package:utility/utility.dart';
 
 import '../../break/view/break_page.dart';
 import '../../common/models/models.dart';
-import '../../common/widgets/black_snackbar.dart';
 import '../cubit/home_cubit.dart';
 import 'rest_option_sheet.dart';
 
