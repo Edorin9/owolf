@@ -20,13 +20,15 @@ class SettingsCubit extends Cubit<SettingsState> {
   StreamSubscription<String>? _timerModeSubscription;
   StreamSubscription<({String type, double? value})>?
       _fluidBreakLengthSubscription;
-  StreamSubscription<double>? _periodLength;
-  StreamSubscription<double>? _periodicBreakLength;
+  StreamSubscription<bool>? _periodAlertSubscription;
+  StreamSubscription<double>? _periodLengthSubscription;
+  StreamSubscription<double>? _periodicBreakLengthSubscription;
 
   void initState() async {
     final fullSettings = _settingsRepository.getFullSettings();
     final workMode = fullSettings.timerMode?.toWorkMode();
     final fluidBreakLength = fullSettings.fluidBreakLength;
+    final isPeriodAlertEnabled = fullSettings.periodAlert;
     final periodLength = fullSettings.periodLength;
     final periodicBreakLength = fullSettings.periodicBreakLength;
     // set initial settings
@@ -35,6 +37,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         timerMode: workMode,
         fluidBreakLengthType: fluidBreakLength.type?.toPreferenceValueType(),
         fluidBreakLength: fluidBreakLength.value,
+        isPeriodAlertEnabled: isPeriodAlertEnabled,
         periodLength: periodLength,
         periodicBreakLength: periodicBreakLength,
       ),
@@ -46,8 +49,9 @@ class SettingsCubit extends Cubit<SettingsState> {
   Future<void> close() {
     _timerModeSubscription?.cancel();
     _fluidBreakLengthSubscription?.cancel();
-    _periodLength?.cancel();
-    _periodicBreakLength?.cancel();
+    _periodAlertSubscription?.cancel();
+    _periodLengthSubscription?.cancel();
+    _periodicBreakLengthSubscription?.cancel();
     return super.close();
   }
 
@@ -62,6 +66,9 @@ class SettingsCubit extends Cubit<SettingsState> {
       value: value,
     );
   }
+
+  void savePeriodAlert(bool isEnabled) =>
+      _settingsRepository.setPeriodAlert(isEnabled);
 
   void savePeriodLength(double period) =>
       _settingsRepository.setPeriodLength(period);
@@ -85,16 +92,21 @@ class SettingsCubit extends Cubit<SettingsState> {
         );
       },
     );
-    _periodLength = _settingsRepository.periodLength.listen(
+    _periodAlertSubscription = _settingsRepository.periodAlert.listen(
+      (periodAlert) {
+        emit(state.copyWith(isPeriodAlertEnabled: periodAlert));
+      },
+    );
+    _periodLengthSubscription = _settingsRepository.periodLength.listen(
       (periodLength) {
         emit(state.copyWith(periodLength: periodLength));
       },
     );
-    _periodicBreakLength = _settingsRepository.periodicBreakLength.listen(
+    _periodicBreakLengthSubscription =
+        _settingsRepository.periodicBreakLength.listen(
       (periodicBreakLength) {
         emit(state.copyWith(periodicBreakLength: periodicBreakLength));
       },
     );
   }
 }
-

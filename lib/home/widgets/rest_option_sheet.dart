@@ -25,38 +25,54 @@ class RestOptionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mode = context.read<HomeCubit>().state.mode;
-    return Wrap(
+    return const Wrap(
       children: [
-        Container(
-          height: 24,
-          width: double.infinity,
-          color: Colors.black,
-          child: Center(
-            child: Container(
-              height: 4,
-              width: 48,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(25, 25, 25, 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              mode == WorkMode.fluid
-                  ? const _FluidMessage()
-                  : const _PeriodicMessage(),
-              vSpace4,
-              const _OptionsRow(),
-            ],
-          ),
-        ),
+        _DragHandle(),
+        _Content(),
       ],
+    );
+  }
+}
+
+class _DragHandle extends StatelessWidget {
+  const _DragHandle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: Container(
+          height: 4,
+          width: 32,
+          decoration: const BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        ),
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content();
+
+  @override
+  Widget build(BuildContext context) {
+    final mode = context.read<HomeCubit>().state.mode;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          mode == WorkMode.fluid
+              ? const _FluidMessage()
+              : const _PeriodicMessage(),
+          vSpace4,
+          const _OptionsRow(),
+        ],
+      ),
     );
   }
 }

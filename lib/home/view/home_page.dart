@@ -36,11 +36,15 @@ class HomePage extends StatelessWidget {
             current.status == HomeStateStatus.idle &&
             current.time == Duration.zero,
         listener: (context, state) async {
-          FlutterRingtonePlayer.play(
-            android: AndroidSounds.notification,
-            ios: IosSounds.glass,
-            asAlarm: false,
-          );
+          final isPeriodAlertEnabled =
+              context.read<SettingsRepository>().getPeriodAlert();
+          if (isPeriodAlertEnabled == true) {
+            FlutterRingtonePlayer.play(
+              android: AndroidSounds.notification,
+              ios: IosSounds.glass,
+              asAlarm: false,
+            );
+          }
           if (ModalRoute.of(context)?.isCurrent == true) {
             final shouldStartBreak = await StartBreakDialog.show(context);
             if (shouldStartBreak && context.mounted) {
@@ -55,11 +59,9 @@ class HomePage extends StatelessWidget {
                   referenceMode: WorkMode.periodic,
                 ),
               );
-              if (context.mounted) {
-                homeCubit
-                  ..resetTimer()
-                  ..startTimer();
-              }
+              homeCubit
+                ..resetTimer()
+                ..startTimer();
             }
           }
         },

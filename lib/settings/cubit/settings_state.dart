@@ -6,6 +6,7 @@ class SettingsState with SettingsStateMappable {
     this.timerMode = WorkMode.fluid,
     this.fluidBreakLengthType = PreferenceValueType.defaultValue,
     this.fluidBreakLength = 0.2,
+    this.isPeriodAlertEnabled = true,
     this.periodLength = 25,
     this.periodicBreakLength = 5,
   });
@@ -24,6 +25,10 @@ class SettingsState with SettingsStateMappable {
   /// <br/>Fraction of total time worked
   ///
   final double fluidBreakLength;
+
+  /// Period alert sounds on completion
+  /// 
+  final bool isPeriodAlertEnabled;
 
   /// Selected period length (in minutes)
   ///

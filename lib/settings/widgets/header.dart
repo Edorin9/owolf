@@ -7,24 +7,25 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CupertinoButton(
-          onPressed: () => context.pop(),
-          pressedOpacity: 0.5,
-          child: const Icon(
-            Icons.keyboard_backspace_rounded,
-            color: Colors.black,
-          ),
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      centerTitle: true,
+      leading: CupertinoButton(
+        onPressed: () => context.pop(),
+        pressedOpacity: 0.5,
+        child: const Icon(
+          Icons.keyboard_backspace_rounded,
+          color: Colors.black,
         ),
-        Text(
-          'Preferences',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
-        ),
-      ],
+      ),
+      title: Text(
+        'Preferences',
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium
+            ?.copyWith(fontWeight: FontWeight.bold),
+      ),
     );
   }
 }

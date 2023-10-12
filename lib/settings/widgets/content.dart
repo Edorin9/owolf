@@ -8,18 +8,15 @@ class Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ScrollConfiguration(
-        behavior: const ScrollBehavior(),
-        child: GlowingOverscrollIndicator(
-          axisDirection: AxisDirection.down,
-          color: Colors.black,
-          child: ListView(
-            children: const [
-              ModeSection(),
-              FluidSection(),
-              PeriodicSection(),
-            ],
-          ),
+      child: GlowingOverscrollIndicator(
+        axisDirection: AxisDirection.down,
+        color: Colors.black,
+        child: ListView(
+          children: const [
+            ModeSection(),
+            FluidSection(),
+            PeriodicSection(),
+          ],
         ),
       ),
     );

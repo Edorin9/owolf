@@ -12,6 +12,7 @@ class SettingsRepository {
   final _timerModeController = BehaviorSubject<String>();
   final _fluidBreakLengthController =
       BehaviorSubject<({String type, double? value})>();
+  final _periodAlertController = BehaviorSubject<bool>();
   final _periodLengthController = BehaviorSubject<double>();
   final _periodicBreakLengthController = BehaviorSubject<double>();
 
@@ -28,6 +29,12 @@ class SettingsRepository {
   ///
   Stream<({String type, double? value})> get fluidBreakLength =>
       _fluidBreakLengthController.asBroadcastStream();
+
+  /// Period complete alert tone
+  ///
+  /// Streams a [bool]
+  ///
+  Stream<bool> get periodAlert => _periodAlertController.asBroadcastStream();
 
   /// Length of one periodic timer interval (period)
   ///
@@ -48,11 +55,13 @@ class SettingsRepository {
   ({
     String? timerMode,
     ({String? type, double? value}) fluidBreakLength,
+    bool? periodAlert,
     double? periodLength,
     double? periodicBreakLength,
   }) getFullSettings() => (
         timerMode: getTimerMode(),
         fluidBreakLength: getFluidBreakLength(),
+        periodAlert: getPeriodAlert(),
         periodLength: getPeriodLength(),
         periodicBreakLength: getPeriodicBreakLength(),
       );
@@ -94,6 +103,19 @@ class SettingsRepository {
     if (isTypeSaved && isValueSaved) {
       _fluidBreakLengthController.add((type: type, value: value));
     }
+  }
+
+  /// Get period alert from shared preferences
+  ///
+  bool? getPeriodAlert() => _prefs.getBool(Keys.periodAlert);
+
+  /// Sets period alert in shared preferences
+  ///
+  /// Accepts a [bool] [isEnabled]
+  ///
+  Future<void> setPeriodAlert(bool isEnabled) async {
+    final isSaved = await _prefs.setBool(Keys.periodAlert, isEnabled);
+    if (isSaved) _periodAlertController.add(isEnabled);
   }
 
   /// Get period length from shared preferences
