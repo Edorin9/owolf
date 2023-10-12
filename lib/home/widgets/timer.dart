@@ -48,7 +48,7 @@ class _TimeDisplay extends StatelessWidget {
           startTime.timerFormat,
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 fontSize: 81,
-                color: Colors.grey.shade900,
+                color: Colors.black,
               ),
         );
       },
@@ -69,7 +69,7 @@ class _ControlButton extends StatelessWidget {
         selector: (state) => state.status == HomeStateStatus.running,
         builder: (context, isRunning) => Icon(
           isRunning ? Icons.stop_circle_rounded : Icons.play_circle_rounded,
-          color: Colors.grey.shade900,
+          color: Colors.black,
           size: Sizes.p64,
         ),
       ),

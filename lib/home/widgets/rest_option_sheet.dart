@@ -129,7 +129,7 @@ class _TimeSufficientFluidMessage extends StatelessWidget {
           textAlign: TextAlign.center,
           text: TextSpan(
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  color: Colors.grey.shade900,
+                  color: Colors.black,
                   fontSize: 18,
                   height: 1.5,
                   fontWeight: FontWeight.w300,
@@ -167,7 +167,7 @@ class _TimeDeficientFluidMessage extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-              color: Colors.grey.shade900,
+              color: Colors.black,
               fontSize: 18,
               height: 1.5,
               fontWeight: FontWeight.w300,
@@ -234,7 +234,7 @@ class _NonZeroPeriodMessage extends StatelessWidget {
           textAlign: TextAlign.center,
           text: TextSpan(
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  color: Colors.grey.shade900,
+                  color: Colors.black,
                   fontSize: 18,
                   height: 1.5,
                   fontWeight: FontWeight.w300,
@@ -271,7 +271,7 @@ class _ZeroPeriodMessage extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-              color: Colors.grey.shade900,
+              color: Colors.black,
               fontSize: 18,
               height: 1.5,
               fontWeight: FontWeight.w300,
@@ -350,7 +350,7 @@ class _TakeBreakButton extends StatelessWidget {
       pressedOpacity: 0.5,
       child: Icon(
         RestOption.takeBreak.icon,
-        color: Colors.grey.shade900,
+        color: Colors.black,
         size: 36,
       ),
     );
@@ -365,7 +365,7 @@ class _OrText extends StatelessWidget {
     return Text(
       '— OR —',
       style: Theme.of(context).textTheme.displayLarge?.copyWith(
-            color: Colors.grey.shade900,
+            color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -384,7 +384,7 @@ class _EndSessionButton extends StatelessWidget {
       pressedOpacity: 0.5,
       child: Icon(
         RestOption.endSession.icon,
-        color: Colors.grey.shade900,
+        color: Colors.black,
         size: 36,
       ),
     );

@@ -19,7 +19,7 @@ class TimerFace extends StatelessWidget {
         state.formattedTime,
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
               fontSize: 81,
-              color: state.isCompleted ? Colors.white : Colors.grey.shade900,
+              color: state.isCompleted ? Colors.white : Colors.black,
             ),
       ),
     );

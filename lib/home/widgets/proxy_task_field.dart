@@ -25,7 +25,7 @@ class ProxyTaskField extends StatelessWidget {
           border: InputBorder.none,
         ),
         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-              color: Colors.grey.shade900,
+              color: Colors.black,
               fontSize: 27,
               height: 1.5,
               fontWeight: FontWeight.w300,
