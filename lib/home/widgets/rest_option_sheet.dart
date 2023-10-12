@@ -13,6 +13,7 @@ class RestOptionSheet extends StatelessWidget {
   static Future<RestOption> show(BuildContext invokerContext) async {
     return await showModalBottomSheet<RestOption>(
           context: invokerContext,
+          backgroundColor: Colors.white,
           isScrollControlled: true,
           builder: (context) => BlocProvider.value(
             value: invokerContext.read<HomeCubit>(),
@@ -25,11 +26,25 @@ class RestOptionSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mode = context.read<HomeCubit>().state.mode;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 25, 25, 16),
-      child: Wrap(
-        children: [
-          Column(
+    return Wrap(
+      children: [
+        Container(
+          height: 24,
+          width: double.infinity,
+          color: Colors.black,
+          child: Center(
+            child: Container(
+              height: 4,
+              width: 48,
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(25, 25, 25, 16),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -40,8 +55,8 @@ class RestOptionSheet extends StatelessWidget {
               const _OptionsRow(),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
