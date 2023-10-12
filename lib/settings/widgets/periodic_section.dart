@@ -2,7 +2,7 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:utility/extensions.dart';
+import 'package:utility/utility.dart';
 
 import '../../common/widgets/widgets.dart';
 import '../cubit/cubit.dart';
@@ -109,51 +109,61 @@ class _PeriodLength extends StatelessWidget {
   }
 }
 
-class _BreakLength extends StatelessWidget {
+class _BreakLength extends StatefulWidget {
   const _BreakLength();
+
+  @override
+  State<_BreakLength> createState() => _BreakLengthState();
+}
+
+class _BreakLengthState extends State<_BreakLength> {
+  final _debouncer = Debouncer(milliseconds: 500);
+  double _breakLengthPerPeriod = 5;
+
+  @override
+  void initState() {
+    _breakLengthPerPeriod =
+        context.read<SettingsCubit>().state.periodicBreakLength;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BlocSelector<SettingsCubit, SettingsState, double>(
-          selector: (state) => state.periodicBreakLength,
-          builder: (context, breakLengthPerPeriod) {
-            return ListTile(
-              title: const Text(
-                'Break Length',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Text(
-                '${breakLengthPerPeriod.toInt()} minute${breakLengthPerPeriod > 1 ? 's' : ''}/period ${breakLengthPerPeriod == 5 ? '(Default)' : ''}',
-                style: const TextStyle(color: Colors.black54),
-              ),
-            );
-          },
+        ListTile(
+          title: const Text(
+            'Break Length',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          subtitle: Text(
+            '${_breakLengthPerPeriod.toInt()} minute${_breakLengthPerPeriod > 1 ? 's' : ''}/period ${_breakLengthPerPeriod == 5 ? '(Default)' : ''}',
+            style: const TextStyle(color: Colors.black54),
+          ),
         ),
-        BlocSelector<SettingsCubit, SettingsState, double>(
-          selector: (state) => state.periodicBreakLength,
-          builder: (context, breakLengthPerPeriod) {
-            return Slider.adaptive(
-              value: breakLengthPerPeriod,
-              min: 0,
-              max: 60,
-              divisions: 60,
-              thumbColor: Colors.black,
-              activeColor: Colors.black,
-              inactiveColor: Colors.grey.shade300,
-              label: breakLengthPerPeriod.toInt().toString(),
-              onChanged: (breakLength) {
-                if (breakLength != 0) {
-                  context
-                      .read<SettingsCubit>()
-                      .savePeriodBreakLength(breakLength);
-                }
-              },
-            );
+        Slider.adaptive(
+          value: _breakLengthPerPeriod,
+          min: 0,
+          max: 60,
+          divisions: 60,
+          thumbColor: Colors.black,
+          activeColor: Colors.black,
+          inactiveColor: Colors.grey.shade300,
+          label: _breakLengthPerPeriod.toInt().toString(),
+          onChanged: (breakLength) {
+            if (breakLength != 0) {
+              setState(() {
+                _breakLengthPerPeriod = breakLength;
+              });
+              _debouncer.run(
+                () => context
+                    .read<SettingsCubit>()
+                    .savePeriodBreakLength(breakLength),
+              );
+            }
           },
         ),
       ],

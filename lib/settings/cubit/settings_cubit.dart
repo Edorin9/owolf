@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +62,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     PreferenceValueType? type,
     double? value,
   }) {
+    log('saveFluidBreakLength() => $type - $value');
     _settingsRepository.setFluidBreakLength(
       type: type?.name ?? state.fluidBreakLengthType.name,
       value: value,
@@ -73,8 +75,10 @@ class SettingsCubit extends Cubit<SettingsState> {
   void savePeriodLength(double period) =>
       _settingsRepository.setPeriodLength(period);
 
-  void savePeriodBreakLength(double breakLength) =>
-      _settingsRepository.setPeriodicBreakLength(breakLength);
+  void savePeriodBreakLength(double breakLength) {
+    log('savePeriodBreakLength() => $breakLength');
+    _settingsRepository.setPeriodicBreakLength(breakLength);
+  }
 
   void _subscribeToSettingChanges() {
     _timerModeSubscription = _settingsRepository.timerMode.listen(
