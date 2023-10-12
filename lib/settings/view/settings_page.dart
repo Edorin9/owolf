@@ -190,6 +190,9 @@ class _Fluid extends StatelessWidget {
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         return Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SectionHeader(title: 'Fluid'),
             ListTile(
@@ -225,15 +228,23 @@ class _Fluid extends StatelessWidget {
                 switchOutCurve: Curves.easeOut,
                 transitionBuilder: (child, animation) => FadeTransition(
                   opacity: animation,
-                  child: child,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, -0.2),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ),
                 ),
                 child: state.fluidBreakLengthType ==
                         PreferenceValueType.defaultValue
-                    ? const Padding(
-                        key: ValueKey(PreferenceValueType.defaultValue),
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: Text(
-                          '5 mins: 25 mins of work and below\n8 mins: more than 25 mins and less than 50 mins of work\n10 mins: more than 50 mins and less than 90 mins of work\n15 mins: more than 90 mins of work',
+                    ? Container(
+                        key: const ValueKey(PreferenceValueType.defaultValue),
+                        width: double.infinity,
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        child: const Text(
+                          '5 mins: <= 25 mins of work\n8 mins: > 25 mins and < 50 mins of work\n10 mins: > 50 mins and < 90 mins of work\n15 mins: > 90 mins of work',
+                          textAlign: TextAlign.start,
                           style: TextStyle(
                             color: Colors.black54,
                             height: 1.3,
@@ -347,7 +358,7 @@ class _Periodic extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                '${breakLengthPerPeriod.toInt()} minute${breakLengthPerPeriod > 1 ? 's' : ''} / period ${breakLengthPerPeriod == 5 ? '(Default)' : ''}',
+                '${breakLengthPerPeriod.toInt()} minute${breakLengthPerPeriod > 1 ? 's' : ''}/period ${breakLengthPerPeriod == 5 ? '(Default)' : ''}',
                 style: const TextStyle(color: Colors.black54),
               ),
             );
