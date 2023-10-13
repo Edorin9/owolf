@@ -43,7 +43,7 @@ class _DragHandle extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 12),
         child: Container(
-          height: 4,
+          height: 3,
           width: 32,
           decoration: const BoxDecoration(
               color: Colors.black,
