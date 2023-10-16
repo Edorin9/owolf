@@ -62,7 +62,10 @@ class SettingsCubit extends Cubit<SettingsState> {
     PreferenceValueType? type,
     double? value,
   }) {
-    log('saveFluidBreakLength() => $type - $value');
+    log('''saveFluidBreakLength() =>
+    type: $type
+    value: $value
+    ''');
     _settingsRepository.setFluidBreakLength(
       type: type?.name ?? state.fluidBreakLengthType.name,
       value: value,
@@ -76,7 +79,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       _settingsRepository.setPeriodLength(period);
 
   void savePeriodBreakLength(double breakLength) {
-    log('savePeriodBreakLength() => $breakLength');
+    log('savePeriodBreakLength() => breakLength: $breakLength');
     _settingsRepository.setPeriodicBreakLength(breakLength);
   }
 

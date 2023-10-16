@@ -242,7 +242,8 @@ class _NonZeroPeriodMessage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const TextSpan(
-                text: 'Both options will drop the current period’s timer.',
+                text:
+                    'Both options will drop the current timer and all completed periods.',
                 style: TextStyle(fontSize: 14),
               ),
             ],
@@ -273,7 +274,7 @@ class _ZeroPeriodMessage extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: 'This will drop the current period’s timer.',
+            text: 'This will drop the current timer.',
             style: TextStyle(fontSize: 14),
           ),
         ],

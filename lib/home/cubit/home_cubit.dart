@@ -39,7 +39,14 @@ class HomeCubit extends Cubit<HomeState> {
           PreferenceValueType.defaultValue,
       value: fluidBreakLength.value ?? 0.2,
     );
-    log('initState() =>\nmode: $mode\nminutesInPeriod: $minutesInPeriod\nbreakLengthPerPeriod: $breakLengthPerPeriod\nfluidBreakLength: $fluidBreakLength');
+    log('''initState() =>
+    mode: $mode
+    minutesInPeriod: $minutesInPeriod
+    startTime: $startTime
+    breakLengthPerPeriod: $breakLengthPerPeriod
+    fluidBreakLength: $fluidBreakLength
+    typedFluidBreakLength: $typedFluidBreakLength
+    ''');
     emit(
       state.copyWith(
         status: HomeStateStatus.idle,
