@@ -30,12 +30,6 @@ class StatusTexts extends StatelessWidget {
           ),
           child: isPeriodic ? const _PeriodStatus() : const SizedBox.shrink(),
         ),
-        // AnimatedOpacity(
-        //   duration: const Duration(milliseconds: 150),
-        //   curve: Curves.slowMiddle,
-        //   opacity: isPeriodic ? 1 : 0,
-        //   child: const _PeriodStatus(),
-        // ),
       ),
     );
   }

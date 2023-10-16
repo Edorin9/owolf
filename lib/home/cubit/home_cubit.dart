@@ -21,11 +21,6 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription<int>? _tickSubscription;
   StreamSubscription<String>? _modeSubscription;
 
-  double _minutesInPeriod = 25;
-  double breakLengthPerPeriod = 5;
-  ({String? type, double? value}) fluidBreakLength =
-      (type: PreferenceValueType.defaultValue.name, value: null);
-
   @override
   Future<void> close() async {
     await _tickSubscription?.cancel();
@@ -34,18 +29,26 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void initState() {
-    final mode =
-        _settingsRepository.getTimerMode()?.toWorkMode() ?? WorkMode.periodic;
-    _minutesInPeriod = _settingsRepository.getPeriodLength() ?? 25;
-    breakLengthPerPeriod = _settingsRepository.getPeriodicBreakLength() ?? 5;
-    fluidBreakLength = _settingsRepository.getFluidBreakLength();
-    log('initState() => mode: $mode, _minutesInPeriod: $_minutesInPeriod, breakLengthPerPeriod: $breakLengthPerPeriod, fluidBreakLength: $fluidBreakLength');
+    final mode = _settingsRepository.getTimerMode()?.toWorkMode();
+    final minutesInPeriod = _settingsRepository.getPeriodLength();
+    final startTime = state.calculateStartTime(forMode: mode);
+    final breakLengthPerPeriod = _settingsRepository.getPeriodicBreakLength();
+    final fluidBreakLength = _settingsRepository.getFluidBreakLength();
+    final typedFluidBreakLength = (
+      type: fluidBreakLength.type?.toPreferenceValueType() ??
+          PreferenceValueType.defaultValue,
+      value: fluidBreakLength.value ?? 0.2,
+    );
+    log('initState() =>\nmode: $mode\nminutesInPeriod: $minutesInPeriod\nbreakLengthPerPeriod: $breakLengthPerPeriod\nfluidBreakLength: $fluidBreakLength');
     emit(
       state.copyWith(
         status: HomeStateStatus.idle,
         mode: mode,
-        time: mode.getStartTime(minutesInPeriod: _minutesInPeriod),
+        time: startTime,
         period: 0,
+        minutesInPeriod: minutesInPeriod,
+        breakLengthPerPeriod: breakLengthPerPeriod,
+        fluidBreakLength: typedFluidBreakLength,
       ),
     );
     _subscribeToModeChange();
@@ -67,7 +70,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(
       state.copyWith(
         status: HomeStateStatus.idle,
-        time: state.mode.getStartTime(minutesInPeriod: _minutesInPeriod),
+        time: state.calculateStartTime(),
         period: 0,
       ),
     );
@@ -91,7 +94,7 @@ class HomeCubit extends Cubit<HomeState> {
         emit(
           state.copyWith(
             mode: newMode,
-            time: newMode.getStartTime(minutesInPeriod: _minutesInPeriod),
+            time: state.calculateStartTime(forMode: newMode),
             period: 0,
           ),
         );
@@ -103,7 +106,7 @@ class HomeCubit extends Cubit<HomeState> {
     _tickSubscription = switch (state.mode) {
       WorkMode.fluid => countUp().listen(_handleCountUpTick),
       WorkMode.periodic =>
-        countdown(_minutesInPeriod.minutes).listen(_handleCountdownTick)
+        countdown(state.minutesInPeriod.minutes).listen(_handleCountdownTick)
     };
   }
 

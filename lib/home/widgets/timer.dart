@@ -22,8 +22,7 @@ class Timer extends StatelessWidget {
           // TODO(Edorin9): future - add SizedBox(
           //   height: MediaQuery.of(context).size.height / 7,
           // ),
-          // timer display
-          const _TimeDisplay(),
+          const _TimerFace(),
           vSpace8,
           const _ControlButton(),
           SizedBox(
@@ -36,8 +35,8 @@ class Timer extends StatelessWidget {
   }
 }
 
-class _TimeDisplay extends StatelessWidget {
-  const _TimeDisplay();
+class _TimerFace extends StatelessWidget {
+  const _TimerFace();
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +93,7 @@ class _ControlButton extends StatelessWidget {
                 await context.pushNamed(
                   BreakPage.routeName,
                   extra: BreakPageArgs(
-                    duration: homeCubit.state.getBreakDuration(
-                      fluidBreakLength: homeCubit.fluidBreakLength,
-                    ),
+                    duration: homeCubit.state.breakDuration,
                     referenceMode: WorkMode.fluid,
                   ),
                 );
@@ -108,9 +105,7 @@ class _ControlButton extends StatelessWidget {
                 await context.pushNamed(
                   BreakPage.routeName,
                   extra: BreakPageArgs(
-                    duration: homeCubit.state.getBreakDuration(
-                      breakLengthPerPeriod: homeCubit.breakLengthPerPeriod,
-                    ),
+                    duration: homeCubit.state.breakDuration,
                     referenceMode: WorkMode.periodic,
                   ),
                 );

@@ -1,4 +1,4 @@
-import 'package:utility/extensions.dart';
+
 
 /// Work modes to handle timer types - either [fluid] or [periodic] timer.
 ///
@@ -19,20 +19,6 @@ enum WorkMode {
   ///
   WorkMode get opposite =>
       this == WorkMode.fluid ? WorkMode.periodic : WorkMode.fluid;
-
-  /// Get starting time for timers
-  ///
-  /// [fluid] -> 0:00 (counting up)
-  /// <br/>[periodic] -> [minutesInPeriod]:00 (counting down)
-  ///
-  Duration getStartTime({num minutesInPeriod = 25}) {
-    switch (this) {
-      case WorkMode.fluid:
-        return Duration.zero;
-      case WorkMode.periodic:
-        return minutesInPeriod.minutes;
-    }
-  }
 }
 
 extension WorkModeExt on String {

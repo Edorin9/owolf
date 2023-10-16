@@ -66,12 +66,7 @@ class _Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, int>(
-      selector: (state) => state
-          .getBreakDuration(
-            breakLengthPerPeriod:
-                context.read<HomeCubit>().breakLengthPerPeriod,
-          )
-          .inMinutes,
+      selector: (state) => state.breakDuration.inMinutes,
       builder: (context, breakDuration) {
         return Text.rich(
           style: const TextStyle(

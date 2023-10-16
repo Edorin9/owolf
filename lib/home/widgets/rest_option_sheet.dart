@@ -85,12 +85,7 @@ class _FluidMessage extends StatelessWidget {
     return Column(
       children: [
         BlocSelector<HomeCubit, HomeState, bool>(
-          selector: (state) {
-            final fluidBreakLength = context.read<HomeCubit>().fluidBreakLength;
-            final breakDuration =
-                state.getBreakDuration(fluidBreakLength: fluidBreakLength);
-            return breakDuration >= 1.seconds;
-          },
+          selector: (state) => state.breakDuration >= 1.seconds,
           builder: (context, canTakeBreak) => AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             switchInCurve: Curves.easeIn,
@@ -121,9 +116,7 @@ class _TimeSufficientFluidMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, Duration>(
-      selector: (state) => state.getBreakDuration(
-        fluidBreakLength: context.read<HomeCubit>().fluidBreakLength,
-      ),
+      selector: (state) => state.breakDuration,
       builder: (context, breakDuration) {
         return RichText(
           textAlign: TextAlign.center,
@@ -226,9 +219,7 @@ class _NonZeroPeriodMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, Duration>(
-      selector: (state) => state.getBreakDuration(
-        breakLengthPerPeriod: context.read<HomeCubit>().breakLengthPerPeriod,
-      ),
+      selector: (state) => state.breakDuration,
       builder: (context, breakDuration) {
         return RichText(
           textAlign: TextAlign.center,
@@ -298,10 +289,7 @@ class _OptionsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, bool>(
       selector: (state) {
-        final fluidBreakLength = context.read<HomeCubit>().fluidBreakLength;
-        final breakDuration =
-            state.getBreakDuration(fluidBreakLength: fluidBreakLength);
-        final isTimeSufficient = breakDuration >= 1.seconds;
+        final isTimeSufficient = state.breakDuration >= 1.seconds;
         final hasPeriod = state.period >= 1;
         return isTimeSufficient || hasPeriod;
       },
@@ -345,7 +333,6 @@ class _TakeBreakButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      // stop normal timer - start break countdown timer
       onPressed: () => context.pop(RestOption.takeBreak),
       pressedOpacity: 0.5,
       child: Icon(
@@ -379,7 +366,6 @@ class _EndSessionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      // stop normal timer
       onPressed: () => context.pop(RestOption.endSession),
       pressedOpacity: 0.5,
       child: Icon(
