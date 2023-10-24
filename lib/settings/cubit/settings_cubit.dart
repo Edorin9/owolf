@@ -27,7 +27,8 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   void initState() async {
     final fullSettings = _settingsRepository.getFullSettings();
-    final workMode = fullSettings.timerMode?.toWorkMode();
+    final workMode =
+        WorkMode.from(fullSettings.timerMode ?? WorkMode.periodic.name);
     final fluidBreakLength = fullSettings.fluidBreakLength;
     final isPeriodAlertEnabled = fullSettings.periodAlert;
     final periodLength = fullSettings.periodLength;
@@ -36,7 +37,9 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(
       state.copyWith(
         timerMode: workMode,
-        fluidBreakLengthType: fluidBreakLength.type?.toPreferenceValueType(),
+        fluidBreakLengthType: PreferenceValueType.from(
+          fluidBreakLength.type ?? PreferenceValueType.defaultValue.name,
+        ),
         fluidBreakLength: fluidBreakLength.value,
         isPeriodAlertEnabled: isPeriodAlertEnabled,
         periodLength: periodLength,
@@ -86,14 +89,15 @@ class SettingsCubit extends Cubit<SettingsState> {
   void _subscribeToSettingChanges() {
     _timerModeSubscription = _settingsRepository.timerMode.listen(
       (timerMode) {
-        emit(state.copyWith(timerMode: timerMode.toWorkMode()));
+        emit(state.copyWith(timerMode: WorkMode.from(timerMode)));
       },
     );
     _fluidBreakLengthSubscription = _settingsRepository.fluidBreakLength.listen(
       (fluidBreakLength) {
         emit(
           state.copyWith(
-            fluidBreakLengthType: fluidBreakLength.type.toPreferenceValueType(),
+            fluidBreakLengthType:
+                PreferenceValueType.from(fluidBreakLength.type),
             fluidBreakLength: fluidBreakLength.value,
           ),
         );

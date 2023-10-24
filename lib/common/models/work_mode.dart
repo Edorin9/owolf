@@ -17,9 +17,9 @@ enum WorkMode {
   ///
   WorkMode get opposite =>
       this == WorkMode.fluid ? WorkMode.periodic : WorkMode.fluid;
-}
 
-extension WorkModeExt on String {
-  WorkMode toWorkMode() =>
-      WorkMode.values.firstWhere((mode) => mode.name == this);
+  /// Return [WorkMode] from [name] String
+  ///
+  static WorkMode from(String name) =>
+      WorkMode.values.singleWhere((mode) => mode.name == name);
 }

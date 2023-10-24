@@ -20,6 +20,7 @@ dependencies:
   path_provider: ^2.0.15
   settings_repository:
     path: packages/settings_repository
+  string_similarity: ^2.0.0
   utility:
     path: packages/utility
 

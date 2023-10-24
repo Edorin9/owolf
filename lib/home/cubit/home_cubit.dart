@@ -29,7 +29,9 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void initState() {
-    final mode = _settingsRepository.getTimerMode()?.toWorkMode();
+    final mode = WorkMode.from(
+      _settingsRepository.getTimerMode() ?? WorkMode.periodic.name,
+    );
     final minutesInPeriod = _settingsRepository.getPeriodLength();
     final startTime = state.calculateStartTime(
       forMode: mode,
@@ -38,8 +40,9 @@ class HomeCubit extends Cubit<HomeState> {
     final breakLengthPerPeriod = _settingsRepository.getPeriodicBreakLength();
     final fluidBreakLength = _settingsRepository.getFluidBreakLength();
     final typedFluidBreakLength = (
-      type: fluidBreakLength.type?.toPreferenceValueType() ??
-          PreferenceValueType.defaultValue,
+      type: PreferenceValueType.from(
+        fluidBreakLength.type ?? PreferenceValueType.defaultValue.name,
+      ),
       value: fluidBreakLength.value ?? 0.2,
     );
     log('''initState() =>
@@ -100,7 +103,7 @@ class HomeCubit extends Cubit<HomeState> {
     _modeSubscription = _settingsRepository.timerMode.listen(
       (timerMode) {
         log('_subscribeToModeChange => $timerMode');
-        final newMode = timerMode.toWorkMode();
+        final newMode = WorkMode.from(timerMode);
         emit(
           state.copyWith(
             mode: newMode,
