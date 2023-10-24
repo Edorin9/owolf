@@ -8,7 +8,7 @@ import '../../common/models/work_mode.dart';
 import '../../common/widgets/black_snackbar.dart';
 import '../../settings/view/settings_page.dart';
 import '../cubit/home_cubit.dart';
-import 'toggle_mode_dialog.dart';
+import 'toggle_mode_sheet.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -35,7 +35,7 @@ class _ToggleButton extends StatelessWidget {
       onPressed: () {
         final homeState = context.read<HomeCubit>().state;
         homeState.status == HomeStateStatus.idle
-            ? ToggleModeDialog.show(context, homeState.mode)
+            ? ToggleModeSheet.show(context)
             : BlackSnackbar.show(
                 context,
                 text: "You can't change modes while the timer is running.",

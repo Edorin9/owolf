@@ -1,5 +1,3 @@
-
-
 /// Work modes to handle timer types - either [fluid] or [periodic] timer.
 ///
 /// Break duration is computed based on how long you worked.

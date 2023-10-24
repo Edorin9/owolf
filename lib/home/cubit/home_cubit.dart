@@ -31,7 +31,10 @@ class HomeCubit extends Cubit<HomeState> {
   void initState() {
     final mode = _settingsRepository.getTimerMode()?.toWorkMode();
     final minutesInPeriod = _settingsRepository.getPeriodLength();
-    final startTime = state.calculateStartTime(forMode: mode);
+    final startTime = state.calculateStartTime(
+      forMode: mode,
+      withMinutesInPeriod: minutesInPeriod,
+    );
     final breakLengthPerPeriod = _settingsRepository.getPeriodicBreakLength();
     final fluidBreakLength = _settingsRepository.getFluidBreakLength();
     final typedFluidBreakLength = (

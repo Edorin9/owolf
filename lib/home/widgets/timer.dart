@@ -23,7 +23,6 @@ class Timer extends StatelessWidget {
           //   height: MediaQuery.of(context).size.height / 7,
           // ),
           const _TimerFace(),
-          vSpace8,
           const _ControlButton(),
           SizedBox(
             // TODO(Edorin9): future - remove

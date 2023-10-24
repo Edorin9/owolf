@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,7 +96,7 @@ class _FluidMessage extends StatelessWidget {
               opacity: animation,
               child: SlideTransition(
                 position: Tween<Offset>(
-                  begin: const Offset(0, -0.2),
+                  begin: const Offset(-0.02, 0),
                   end: Offset.zero,
                 ).animate(animation),
                 child: child,
@@ -110,14 +112,32 @@ class _FluidMessage extends StatelessWidget {
   }
 }
 
-class _TimeSufficientFluidMessage extends StatelessWidget {
+class _TimeSufficientFluidMessage extends StatefulWidget {
   const _TimeSufficientFluidMessage();
+
+  @override
+  State<_TimeSufficientFluidMessage> createState() =>
+      _TimeSufficientFluidMessageState();
+}
+
+class _TimeSufficientFluidMessageState
+    extends State<_TimeSufficientFluidMessage> {
+  Duration lastBreakDuration = Duration.zero;
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, Duration>(
-      selector: (state) => state.breakDuration,
+      selector: (state) {
+        // save the last breakDuration value to avoid 0 duration display
+        // when session is ended and breakDuration calculates to zero
+        final breakDuration = state.breakDuration == Duration.zero
+            ? lastBreakDuration
+            : state.breakDuration;
+        lastBreakDuration = state.breakDuration;
+        return breakDuration;
+      },
       builder: (context, breakDuration) {
+        log(breakDuration.inSeconds.toString());
         return RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
@@ -197,7 +217,7 @@ class _PeriodicMessage extends StatelessWidget {
               opacity: animation,
               child: SlideTransition(
                 position: Tween<Offset>(
-                  begin: const Offset(0, 0.2),
+                  begin: const Offset(-0.02, 0),
                   end: Offset.zero,
                 ).animate(animation),
                 child: child,
@@ -213,13 +233,28 @@ class _PeriodicMessage extends StatelessWidget {
   }
 }
 
-class _NonZeroPeriodMessage extends StatelessWidget {
+class _NonZeroPeriodMessage extends StatefulWidget {
   const _NonZeroPeriodMessage();
+
+  @override
+  State<_NonZeroPeriodMessage> createState() => _NonZeroPeriodMessageState();
+}
+
+class _NonZeroPeriodMessageState extends State<_NonZeroPeriodMessage> {
+  Duration lastBreakDuration = Duration.zero;
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<HomeCubit, HomeState, Duration>(
-      selector: (state) => state.breakDuration,
+      selector: (state) {
+        // save the last breakDuration value to avoid 0 duration display
+        // when session is ended and breakDuration calculates to zero
+        final breakDuration = state.breakDuration == Duration.zero
+            ? lastBreakDuration
+            : state.breakDuration;
+        lastBreakDuration = state.breakDuration;
+        return breakDuration;
+      },
       builder: (context, breakDuration) {
         return RichText(
           textAlign: TextAlign.center,

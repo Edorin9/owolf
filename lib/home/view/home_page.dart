@@ -46,7 +46,8 @@ class HomePage extends StatelessWidget {
             );
           }
           if (ModalRoute.of(context)?.isCurrent == true) {
-            final shouldStartBreak = await StartBreakDialog.show(context);
+            final shouldStartBreak =
+                await StartBreakSheet.show(context) ?? false;
             if (shouldStartBreak && context.mounted) {
               final homeCubit = context.read<HomeCubit>();
               homeCubit.stopTicks();
@@ -66,7 +67,7 @@ class HomePage extends StatelessWidget {
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: WillPopScope(
-            onWillPop: () async => ExitAppConfirmDialog.show(context),
+            onWillPop: () => ExitAppSheet.show(context),
             child: const _HomeView(),
           ),
         ),

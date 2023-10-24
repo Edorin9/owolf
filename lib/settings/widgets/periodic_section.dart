@@ -166,6 +166,7 @@ class _BreakLengthState extends State<_BreakLength> {
             }
           },
         ),
+        vSpace16,
       ],
     );
   }

@@ -56,9 +56,13 @@ class HomeState with HomeStateMappable {
   /// [WorkMode.fluid] -> 0:00 (counting up)
   /// <br/>[WorkMode.periodic] -> [minutesInPeriod]:00 (counting down)
   ///
-  Duration calculateStartTime({WorkMode? forMode}) => switch (forMode ?? mode) {
+  Duration calculateStartTime({
+    WorkMode? forMode,
+    double? withMinutesInPeriod,
+  }) =>
+      switch (forMode ?? mode) {
         WorkMode.fluid => Duration.zero,
-        WorkMode.periodic => minutesInPeriod.minutes,
+        WorkMode.periodic => (withMinutesInPeriod ?? minutesInPeriod).minutes,
       };
 
   /// Compute for the length of break time depending on the [WorkMode] active.
