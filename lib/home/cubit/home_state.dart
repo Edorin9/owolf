@@ -70,18 +70,22 @@ class HomeState with HomeStateMappable {
   /// [breakLengthPerPeriod] is the multiplier for [period]
   ///
   Duration get breakDuration => switch (mode) {
-        WorkMode.fluid => switch (
-              fluidBreakLength.type ?? PreferenceValueType.defaultValue) {
-            PreferenceValueType.defaultValue => time > 90.minutes
-                ? 15.minutes
-                : time > 50.minutes && time <= 90.minutes
-                    ? 10.minutes
-                    : time > 25.minutes && time <= 50.minutes
-                        ? 8.minutes
-                        : 5.minutes,
-            PreferenceValueType.customValue =>
-              time * (fluidBreakLength.value ?? 0.2)
-          },
+        WorkMode.fluid => _fluidBreakDuration,
         WorkMode.periodic => (period * breakLengthPerPeriod).minutes
       };
+
+  Duration get _fluidBreakDuration =>
+      switch (fluidBreakLength.type ?? PreferenceValueType.defaultValue) {
+        PreferenceValueType.defaultValue => _defaultFluidBreakDuration,
+        PreferenceValueType.customValue =>
+          time * (fluidBreakLength.value ?? 0.2)
+      };
+
+  Duration get _defaultFluidBreakDuration => time > 90.minutes
+      ? 15.minutes
+      : time > 50.minutes && time <= 90.minutes
+          ? 10.minutes
+          : time > 25.minutes && time <= 50.minutes
+              ? 8.minutes
+              : 5.minutes;
 }
