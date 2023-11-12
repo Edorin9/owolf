@@ -95,8 +95,7 @@ class _HomeView extends StatelessWidget {
               ],
             ),
           ),
-          ProxyTaskField(),
-          // TODO(Edorin9): future - _DraggableTasksSheet(),
+          TasksSheet(),
         ],
       ),
     );

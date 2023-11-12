@@ -16,18 +16,10 @@ class Timer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Column(
-        mainAxisAlignment: // TODO(Edorin9): future - remove
-            MainAxisAlignment.center,
         children: [
-          // TODO(Edorin9): future - add SizedBox(
-          //   height: MediaQuery.of(context).size.height / 7,
-          // ),
+          SizedBox(height: MediaQuery.of(context).size.height / 8),
           const _TimerFace(),
           const _ControlButton(),
-          SizedBox(
-            // TODO(Edorin9): future - remove
-            height: MediaQuery.of(context).size.height / 9,
-          ),
         ],
       ),
     );
