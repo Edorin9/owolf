@@ -46,6 +46,7 @@ class _TimerFace extends StatelessWidget {
           startTime.timerFormat,
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 fontSize: 81,
+                fontWeight: FontWeight.w100,
                 color: Colors.black,
               ),
         );
@@ -62,7 +63,7 @@ class _ControlButton extends StatelessWidget {
     return CupertinoButton(
       onPressed: () async => _onPressed(context),
       pressedOpacity: 0.5,
-      minSize: 0,
+      minimumSize: const Size(0, 0),
       child: BlocSelector<HomeCubit, HomeState, bool>(
         selector: (state) => state.status == HomeStateStatus.running,
         builder: (context, isRunning) => Icon(

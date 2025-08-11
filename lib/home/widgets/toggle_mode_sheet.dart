@@ -14,6 +14,7 @@ class ToggleModeSheet extends StatelessWidget {
     return await showModalBottomSheet<bool>(
       context: invokerContext,
       backgroundColor: Colors.white,
+      shape: const Border(),
       isScrollControlled: true,
       builder: (context) => BlocProvider.value(
         value: invokerContext.read<HomeCubit>(),
@@ -144,13 +145,13 @@ class _NoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () => context.pop(false),
-      minSize: 0,
       padding: const EdgeInsets.symmetric(
         horizontal: 40,
         vertical: 12,
       ),
       color: Colors.transparent,
       pressedOpacity: 0.5,
+      minimumSize: const Size(0, 0),
       child: const Text(
         'No',
         style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -171,13 +172,13 @@ class _YesButton extends StatelessWidget {
         invokerContext.read<HomeCubit>().toggleMode();
         context.pop();
       },
-      minSize: 0,
       padding: const EdgeInsets.symmetric(
         horizontal: 40,
         vertical: 12,
       ),
       color: Colors.black,
       pressedOpacity: 0.5,
+      minimumSize: const Size(0, 0),
       child: const Text(
         'Yes',
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

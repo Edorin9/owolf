@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
           final isPeriodAlertEnabled =
               context.read<SettingsRepository>().getPeriodAlert();
           if (isPeriodAlertEnabled == true) {
-            FlutterRingtonePlayer.play(
+            FlutterRingtonePlayer().play(
               android: AndroidSounds.notification,
               ios: IosSounds.glass,
               asAlarm: false,
@@ -66,8 +66,8 @@ class HomePage extends StatelessWidget {
         },
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: WillPopScope(
-            onWillPop: () => ExitAppSheet.show(context),
+          child: PopScope(
+            onPopInvokedWithResult: (_, __) => ExitAppSheet.show(context),
             child: const _HomeView(),
           ),
         ),

@@ -36,15 +36,15 @@ class BreakPage extends StatelessWidget {
             previous.status != current.status &&
             current.status == BreakStateStatus.completed,
         listener: (context, state) async {
-          await FlutterRingtonePlayer.play(
+          await FlutterRingtonePlayer().play(
             android: AndroidSounds.notification,
             ios: IosSounds.glass,
             looping: true,
             asAlarm: false,
           );
         },
-        child: WillPopScope(
-          onWillPop: () async => false,
+        child: PopScope(
+          onPopInvokedWithResult: (_, __) => false,
           child: const _BreakView(),
         ),
       ),

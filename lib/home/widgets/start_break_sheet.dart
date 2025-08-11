@@ -13,6 +13,7 @@ class StartBreakSheet extends StatelessWidget {
     return await showModalBottomSheet<bool>(
       context: invokerContext,
       backgroundColor: Colors.white,
+      shape: const Border(),
       isScrollControlled: true,
       builder: (context) => BlocProvider.value(
         value: invokerContext.read<HomeCubit>(),

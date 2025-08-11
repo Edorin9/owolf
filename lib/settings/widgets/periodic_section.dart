@@ -43,6 +43,11 @@ class _AlertSounds extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          activeColor: Colors.black,
+          activeTrackColor: Colors.amber,
+          inactiveThumbColor: Colors.black,
+          inactiveTrackColor: Colors.grey.shade300,
+          trackOutlineColor: WidgetStateColor.transparent,
           subtitle: Text(
             "${isEnabled ? 'Enabled' : 'Disabled'} quick tone ring when a period finishes",
             style: const TextStyle(color: Colors.black54),
@@ -96,8 +101,8 @@ class _PeriodLength extends StatelessWidget {
             color: Colors.black,
             padding: const EdgeInsets.all(8),
             borderRadius: BorderRadius.circular(24),
-            minSize: 0,
             pressedOpacity: 0.5,
+            minimumSize: const Size(0, 0),
             child: const Icon(
               Icons.punch_clock_rounded,
               color: Colors.white,

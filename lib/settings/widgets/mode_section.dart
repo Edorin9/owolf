@@ -33,7 +33,7 @@ class ModeSection extends StatelessWidget {
               visualDensity: VisualDensity.compact,
               groupValue: mode,
               value: WorkMode.fluid,
-              fillColor: MaterialStateProperty.all(Colors.grey),
+              fillColor: WidgetStateProperty.all(Colors.grey),
               title: const Text(
                 'Fluid',
                 style: TextStyle(
@@ -60,7 +60,7 @@ class ModeSection extends StatelessWidget {
               visualDensity: VisualDensity.compact,
               groupValue: mode,
               value: WorkMode.periodic,
-              fillColor: MaterialStateProperty.all(Colors.grey),
+              fillColor: WidgetStateProperty.all(Colors.grey),
               title: const Text(
                 'Periodic',
                 style: TextStyle(

@@ -42,7 +42,7 @@ class _ToggleButton extends StatelessWidget {
               );
       },
       pressedOpacity: 0.5,
-      minSize: 0,
+      minimumSize: const Size(0, 0),
       child: BlocSelector<HomeCubit, HomeState, WorkMode>(
         selector: (state) => state.mode,
         builder: (context, mode) {

@@ -10,6 +10,7 @@ class ExitAppSheet extends StatelessWidget {
     return await showModalBottomSheet<bool>(
           context: invokerContext,
           backgroundColor: Colors.white,
+          shape: const Border(),
           isScrollControlled: true,
           builder: (_) => const ExitAppSheet(),
         ) ??

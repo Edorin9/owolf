@@ -16,6 +16,7 @@ class RestOptionSheet extends StatelessWidget {
     return await showModalBottomSheet<RestOption>(
           context: invokerContext,
           backgroundColor: Colors.white,
+          shape: const Border(),
           isScrollControlled: true,
           builder: (context) => BlocProvider.value(
             value: invokerContext.read<HomeCubit>(),
